@@ -13,6 +13,21 @@ class IndexController extends Zend_Controller_Action
         // action body
     }
 
+	public function createAction(){
+		$m = new Mongo("mongodb://localhost/datacenter");
+        $db = $m->selectDB('datacenter');
+		$collection = $m->selectCollection('datacenter', 'users');
+		
+		$array = array('name' => 'test');
+		
+		$result = $collection->insert($array);
+		
+		return $this->_helper->json($result);
+			
+		//$obj = $this->getRequest()->getParam('data');
+		
+		
+	}
 
 }
 
