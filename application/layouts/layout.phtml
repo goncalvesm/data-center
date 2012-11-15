@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+
+  <title>Data center</title>
+
+  <link rel="stylesheet" media="screen" href="/css/home.css">
+</head>
+<body>
+	<div id="container">
+		<div id="header">
+			<h1>Data center</h1>
+			<p>Accedez a vos données ou que vous soyez !</p>
+		</div>
+
+		<div id="connection">
+			<form method="POST" action="/">
+				<table>
+					<tr>
+						<td style="width:100px;">login :</td>
+						<td><input type="text" /></br></td>
+					</tr>
+					<tr>
+						<td>mot de passe :</td>
+						<td><input type="password" /></td>
+					</tr>
+				</table>
+				<input class="button" type="submit" />
+			</form>
+		</div>
+
+		<div id="menu">
+			<ul>
+				<li>Menu</li>
+				<li><a href="/">Accueil</a></li>
+			</ul>
+		</div>
+
+		<div id="body">
+			<?php echo $this->layout()->content?>
+		</div>
+
+		<div id="footer">
+			<h1>Pied de page</h1>
+		</div>
+	</div>
+</body>
+</html>
