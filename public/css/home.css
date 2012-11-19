@@ -1,139 +1,54 @@
-/**************
- * Reset csss *
- *************/
+body, html      {background:#202020 url(/images/fond.png);margin:0;padding:0;font-family:Verdana, Arial, Helvetica, sans-serif;text-align:center;color:#FFF;font-size:11px}	  
+img, p, h1, h2, h3, h4, h5, h6, Span, object, table, td, tr, form{border:0;margin:0;padding:0} 
+#conteneur      {position: relative;margin-left: auto;margin-right: auto;width: 779px;top:0;}	   
+#fond1          {background:url(/images/fond1.png) no-repeat top center;width:1323px;height:899px;margin:0 auto}
+/*************** Jquery ***************/	 
+.panel_button     {margin-left: auto;margin-right: auto;position: relative;top:0;width:779px;height:39px;background: url(//images/panel_button.png);z-index: 20;cursor: pointer;}
+.panel_button img {position: relative;top:7px;	left:300px;border: none;}	   
+#toppanel {position: absolute;width: 779px;left: 0px;z-index: 25;text-align: center;}
+#panel {width: 779px;position: relative;top:0;height:0;margin-left: auto;margin-right: auto;z-index: 10;overflow: hidden;text-align: left;}
+#panel_contents {background: url(//images/pan.png);width: 779px;height:100%;position: absolute;z-index: -1;padding: 0 0 0 30px}
+/*************** HEADER  ***************/	 
+#header                        {background:url(/images/header.png);width:779px;height:156px;margin:0 auto}
+ul#menu_header                 {list-style:none;padding:1px 0 0 20px;margin:0;text-align:center;font-weight:bold;}	
+ul#menu_header li              {float:left;background:url(/images/sepa.png) no-repeat right;height:36px;padding:0 20px 0 15px;vertical-align:middle;} 
+ul#menu_header li#dernierlien  {height:36px;background:transparent} 
+ul#menu_header li a            {display: block;height: 14px;color: #FFF;text-decoration: none;margin:12px 0 0 0}
+ul#menu_header li a:hover      {color: #4cbacb}		
+/*************** CONTENU  ***************/	
+#contenu         {margin: 0 auto;width:749px;background:url(/images/contenu.png);text-align:left;padding:0 15px}	
+.news_haut 	     {background:url(/images/news_haut.png);width:704px;margin:0 auto;height:25px;font-weight:bold;padding:19px 20px 0 20px}
+.news_fond 	     {background:url(/images/news_fond.png);width:704px;margin:0 auto;color:#FFF;padding:5px 20px}	
+.news_bas   	 {background:url(/images/news_bas.png);width:744px;margin:0 auto;height:20px}	
+.bloc                {float:left;width:226px;margin:0 11px;}
+.petit_haut 	     {background:url(/images/petit_haut.png);width:226px;margin:0 auto;height:13px;}
+.petit_fond 	     {background:url(/images/petit_fond.png);width:226px;margin:0 auto;color:#FFF;padding:5px 0}	
+.petit_bas   	     {background:url(/images/petit_bas.png);width:226px;margin:0 auto;height:13px}
+.petit_fond p	     {width:200px;margin:0 auto;line-height:20px}
+.texte_bloc		{height:60px;}				 
+/*************** PIED  ***************/					  
+#pied_haut         {background:url(/images/pied_haut.png) no-repeat;width:779px;height:16px;margin:0 auto;padding:0}
+#pied_fond         {background:url(/images/pied_fond.png);width:739px;margin:0 auto;padding:10px 20px}
+#pied_bas          {background:url(/images/pied_bas.png) no-repeat;width:749px;height:37px;margin:0 auto;padding:0 30px 0 0}	 
+a                   {color:#FFF;text-decoration:none;outline:none;font-weight:bold}	 
+a:hover             {color:#4cbacb}	
+td#partenaires		{margin: 0 auto 0 20px;text-align:left;width:200px}
+td#copyright		{font-size:11px;line-height:20px}
+td#copyright a   	{font-size:11px;line-height:20px;font-weight:normal}
+#pied_fond p		{font-size:14px;font-weight:bold;color:#4cbacb;margin:0;padding:0}	  
+#pied_fond table	{text-align:left}	
+#pied_fond td    	{padding:0 20px}	
+ul#menu_pied                 {list-style:none;padding:0;margin:0;}	
+ul#menu_pied li              {border-bottom:1px solid #6a6a6a;padding:6px 0;background:url(/images/fleche.png) no-repeat left 8px;} 
+ul#menu_pied li a            {display: block;height: 14px;color: #FFF;text-decoration: none;margin:0;font-weight:normal;padding:0 0 0 13px}
+ul#menu_pied li a:hover      {color: #4cbacb}		
+#twitter                     {background:url(/images/twitter.png) left no-repeat;width:59px;height:108px;cursor:pointer}
+#twitter:hover               {background:url(/images/twitter.png) right no-repeat;width:59px;height:108px}	
 
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
-
-/*************
- * End reset *
- ************/
-
-/*******************
- * Home stylesheet *
- ******************/
-
-body {
-	background: #334073;
-	font-size: 1em;
-}
-
-#container {
-	width: 900px;
-	margin: 0 auto;
-	margin-top: 10px;
-}
-
-#header {
-	width: 530px;
-	height: 60px;
-	padding: 20px;
-	margin-bottom: 10px;
-
-	float: left;
-
-	border-radius: 5px;
-
-	background: #338CF2;
-}
-
-#connection {
-	width: 280px;
-	height: 60px;
-	padding: 20px;
-	margin-bottom: 10px;
-	margin-left: 580px;
-
-	border-radius: 5px;
-
-	background: #338CF2;
-}
-
-#menu {
-	width: 130px;
-	padding: 20px;
-	float: left;
-	min-height: 500px;
-
-	border-radius: 5px;
-
-	background: #338CF2;
-}
-
-#body {
-	width: 680px;
-	height: 20px;
-	padding: 20px;
-	margin-left: 180px;
-	min-height: 500px;
-
-	border-radius: 5px;
-
-	background: #338CF2;
-}
-
-#footer {
-	width: 880px;
-	height: 16px;
-	padding: 10px;
-	margin-top: 10px;
-
-	vertical-align: center;
-
-	float: left;
-
-	border-radius: 5px;
-
-	background: #338CF2;
-}
-
-.button {
-	background: #33BFF2;
-	border: thin solid black;
-	border-radius: 5px;
-}
-
-.button:hover {
-	background: #33BFA6;
-}
+/* liScroll styles */
+.tickercontainer {width: 660px; height: 27px; padding: 121px 0 0 0; overflow: hidden;margin:0 auto}
+.tickercontainer .mask {position: relative;top: 8px;width: 654px;overflow: hidden;margin:0 auto}
+ul.newsticker {position: relative;left: 660px;font: bold 10px Verdana;list-style-type: none;margin: 0;padding: 0;}
+ul.newsticker li {float: left;margin: 0;padding: 0;}
+ul.newsticker a {white-space: nowrap;padding: 0;color: #FFF;font: bold 10px Verdana;margin: 0 50px 0 0;} 
+ul.newsticker span {margin: 0 10px 0 0;} 
