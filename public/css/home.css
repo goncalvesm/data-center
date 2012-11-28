@@ -3,20 +3,15 @@ img, p, h1, h2, h3, h4, h5, h6, Span, object, table, td, tr, form{border:0;margi
 #conteneur      {position: relative;margin-left: auto;margin-right: auto;width: 779px;top:0;}	   
 #fond1          {background:url(/images/fond1.png) no-repeat top center;width:1323px;height:899px;margin:0 auto}
 /*************** Jquery ***************/	 
-.panel_button     {margin-left: auto;margin-right: auto;position: relative;top:0;width:779px;height:39px;background: url(//images/panel_button.png);z-index: 20;cursor: pointer;}
+.panel_button     {margin-left: auto;margin-right: auto;position: relative;top:0;width:779px;height:39px;background: url(/images/panel_button.png);z-index: 20;cursor: pointer;}
 .panel_button img {position: relative;top:7px;	left:300px;border: none;}	   
 #toppanel {position: absolute;width: 779px;left: 0px;z-index: 25;text-align: center;}
 #panel {width: 779px;position: relative;top:0;height:0;margin-left: auto;margin-right: auto;z-index: 10;overflow: hidden;text-align: left;}
-#panel_contents {background: url(//images/pan.png);width: 779px;height:100%;position: absolute;z-index: -1;padding: 0 0 0 30px}
+#panel_contents {background: url(/images/pan.png);width: 749px;height:100%;position: absolute;z-index: -1;padding: 7px 0 0 30px}
 /*************** HEADER  ***************/	 
 #header                        {background:url(/images/header.png);width:779px;height:156px;margin:0 auto}
-ul#menu_header                 {list-style:none;padding:1px 0 0 20px;margin:0;text-align:center;font-weight:bold;}	
-ul#menu_header li              {float:left;background:url(/images/sepa.png) no-repeat right;height:36px;padding:0 20px 0 15px;vertical-align:middle;} 
-ul#menu_header li#dernierlien  {height:36px;background:transparent} 
-ul#menu_header li a            {display: block;height: 14px;color: #FFF;text-decoration: none;margin:12px 0 0 0}
-ul#menu_header li a:hover      {color: #4cbacb}		
 /*************** CONTENU  ***************/	
-#contenu         {margin: 0 auto;width:749px;background:url(/images/contenu.png);text-align:left;padding:0 15px}	
+#contenu         {margin: 0 auto;width:749px;background:url(/images/contenu.png);text-align:left;padding:0 15px;color:#000;min-height:300px;}	
 .news_haut 	     {background:url(/images/news_haut.png);width:704px;margin:0 auto;height:25px;font-weight:bold;padding:19px 20px 0 20px}
 .news_fond 	     {background:url(/images/news_fond.png);width:704px;margin:0 auto;color:#FFF;padding:5px 20px}	
 .news_bas   	 {background:url(/images/news_bas.png);width:744px;margin:0 auto;height:20px}	

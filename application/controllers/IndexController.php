@@ -12,6 +12,12 @@ class IndexController extends Zend_Controller_Action
     {
         // action body
     }
+	
+	public function loginAction(){
+		$view = new Zend_View();
+		
+		$view->a = "test";
+	}
 
 }
 

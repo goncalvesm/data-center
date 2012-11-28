@@ -13,14 +13,13 @@
     <div id="conteneur">  
          <div id="toppanel">
               <div id="panel">
-                   <div id="panel_contents"></div>
- 				        <ul id="menu_header"> 
-                            <li id="ici"><a href="#" title="">Rubrique</a></li>
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li><a href="#" title="">Rubrique</a></li> 
-                            <li id="dernierlien"><a href="#" title="">Rubrique</a></li>
-                       </ul>	
+                   <div id="panel_contents">
+	                   		<form method="post" action"/index/login">
+	                   			pseudonyme : <input type="text" name="pseudo" />
+	                   			mot de passe : <input type="password" name="pwd" />
+	                   			<input type="submit" name="connection" value="Connexion" />
+	                   		</form>
+                   </div>
               </div>
                    <div class="panel_button"><img src="/images/expand.png"  alt="expand"/></div>
                    <div class="panel_button" id="hide_button" style="display: none;"><img src="/images/collapse.png" alt="collapse" /></div>
@@ -29,7 +28,7 @@
 
 	      <div id="header"> 
 	           <ul id="ticker01">
-	               <li><a href="#">Site en construction</a></li>
+	               <li><a href="#">Gratuit pour les premiers !</a></li>
 	            </ul> 
 	      </div>
 
