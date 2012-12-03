@@ -1,5 +1,7 @@
 <?php
 
+namespace \services\authentification;
+
 class authentification {
 	
 	public function login(){

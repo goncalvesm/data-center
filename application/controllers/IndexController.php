@@ -1,14 +1,11 @@
 <?php
 
-use \services;
+use \services\authentification;
 
 class IndexController extends Zend_Controller_Action {
 
-	protected $_authentification;
-
-
 	public function init() {
-		//$this->_authentification = new \services\authentification();
+		$authentification = new \services\authentification();
 	}
 
 	public function indexAction() {
@@ -25,6 +22,8 @@ class IndexController extends Zend_Controller_Action {
 		 } else {
 		 //return error message
 		 }*/
+		 
+		 
 	}
 
 	public function logoutAction() {
