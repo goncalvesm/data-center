@@ -1,17 +1,47 @@
 <?php
 
-class IndexController extends Zend_Controller_Action
-{
+use \services;
 
-    public function init()
-    {
-        /* Initialize action controller here */
-    }
+class IndexController extends Zend_Controller_Action {
 
-    public function indexAction()
-    {
-        // action body
-    }
+	protected $_authentification;
+
+	public function init() {
+		//$this->_authentification = new \services\authentification();
+	}
+
+	public function indexAction() {
+		// action body
+	}
+
+	public function loginAction() {
+		/*$result = $authentification->login();
+
+		 if($result){
+		 //got to the index
+
+		 //set the session
+		 } else {
+		 //return error message
+		 }*/
+	}
+
+	public function logoutAction() {
+		//desactiver la vue
+
+		/*$result = $authentification->login();
+
+		 if(!$result){
+		 //return error message
+		 }*/
+	}
+
+	public function inscriptionAction() {
+		
+	}
+
+	public function interfaceAction() {
+		
+	}
 
 }
-
