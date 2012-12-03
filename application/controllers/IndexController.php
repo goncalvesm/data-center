@@ -6,6 +6,7 @@ class IndexController extends Zend_Controller_Action {
 
 	protected $_authentification;
 
+
 	public function init() {
 		//$this->_authentification = new \services\authentification();
 	}
