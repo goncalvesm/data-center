@@ -15,32 +15,16 @@ class IndexController extends Zend_Controller_Action {
 	public function loginAction() {
 		$result = $this->_auth->login();
 
-		 if($result){
-		 	//got to the index
-
-		 	//set the session
-		 } else {
+		if($result){
+		 	$this->_helper->redirector('index', 'interface');
+		} else {
 		 	//return error message
-		 }
-		 
-		 
-	}
-
-	public function logoutAction() {
-		//desactiver la vue
-
-		$result = $this->_auth->login();
-
-		if(!$result){
-			//return error message
 		}
+		 
+		 
 	}
 
 	public function inscriptionAction() {
-		
-	}
-
-	public function interfaceAction() {
 		
 	}
 

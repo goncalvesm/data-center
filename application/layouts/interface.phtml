@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 	<head>
-		<title>Data center</title>
+		<title>Interface</title>
 		<meta charset="utf-8">
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 		<?php echo $this->headLink()->appendStylesheet('/css/interface.css')?>
@@ -9,7 +9,7 @@
 	<body>
 		<div id="conteneur">
 			<div id="connexion">
-				Bienvenue sur l'interface de gestion de vos fichiers <input type="button" value="Déconnexion"/>
+				<form method="post" action="/interface/logout">Bienvenue sur l'interface de gestion de vos fichiers <input type="submit" value="Déconnexion"/></form>
 			</div>
 			<div id="menu">
 				<ul>
