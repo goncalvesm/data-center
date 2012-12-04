@@ -1,27 +1,27 @@
 <?php
 
-use \services\authentification;
-
 class IndexController extends Zend_Controller_Action {
+	
+	protected $_auth;
 
 	public function init() {
-		$authentification = new \services\authentification();
+		$this->_auth = new Zend_Perso_Authentification;
 	}
 
 	public function indexAction() {
-		// action body
+		
 	}
 
 	public function loginAction() {
-		/*$result = $authentification->login();
+		$result = $this->_auth->login();
 
 		 if($result){
-		 //got to the index
+		 	//got to the index
 
-		 //set the session
+		 	//set the session
 		 } else {
-		 //return error message
-		 }*/
+		 	//return error message
+		 }
 		 
 		 
 	}
@@ -29,11 +29,11 @@ class IndexController extends Zend_Controller_Action {
 	public function logoutAction() {
 		//desactiver la vue
 
-		/*$result = $authentification->login();
+		$result = $this->_auth->login();
 
-		 if(!$result){
-		 //return error message
-		 }*/
+		if(!$result){
+			//return error message
+		}
 	}
 
 	public function inscriptionAction() {

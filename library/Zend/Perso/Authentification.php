@@ -1,8 +1,6 @@
 <?php
 
-namespace \services\authentification;
-
-class authentification {
+class Zend_Perso_Authentification {
 	
 	public function login(){
 		return true;
