@@ -4,7 +4,8 @@
 		<title>Data center</title>
 		<meta charset="utf-8">
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-		<?php echo $this->headLink()->appendStylesheet('/css/global.css')?>
+		<?php echo $this->headLink()->appendStylesheet('/css/global.css'); ?>
+		<script type="text/javascript" src="/js/setFormula.js"></script>
 	</head>
 	<body>
 		<div id="conteneur">
@@ -12,14 +13,11 @@
 				<?php echo $this->render('/index/login.phtml') ?>
 			</div>
 			<div id="header">
-				<p><a href="/index/inscription">Réservez 1Mo d'espace de stockage pour vos données !</a></p>
-				<p><a href="/index/inscription">Réservez 10Mo d'espace de stockage pour vos données !</a></p>
-				<p><a href="/index/inscription">Réservez 100Mo d'espace de stockage pour vos données !</a></p>
-			</div>
-			<div id="menu">
+				<p>Profitez de nos différentes offres pour stocker vos données !</p>
 				<ul>
-					<li><a href="/">Accueil</a></li>
-					<li><a href="/index/inscription">Inscription</a></li>
+					<li><a href="#" onClick="setFormula('1')">1 Mo d'espace disque !</a></li>
+					<li><a href="#" onClick="setFormula('10');">10 Mo d'espace disque !!</a></li>
+					<li><a href="#" onClick="setFormula('100');">100 Mo d'espace disque !!!</a></li>
 				</ul>
 			</div>
 			<div id="contenu">

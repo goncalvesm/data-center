@@ -56,7 +56,7 @@ body a {
 	margin-bottom: 10px;
 }
 
-#connexion input[type="text"]:focus, input[type="password"]:focus {
+#connexion input[type="text"]:focus, #connexion input[type="password"]:focus {
 	border-color: blue;
 }
 
