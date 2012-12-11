@@ -39,7 +39,8 @@ class Zend_Perso_Authentification {
 	}
 	
 	public function logout(){
-		$this->_session->set('connecte', false);
+		$this->_session->set('connecte', null);
+		$this->_session->set('utilisateur', null);
 	}
 	
 }
