@@ -5,6 +5,7 @@ class Application_Form_Inscription extends Zend_Form
     public function init()
     {
         $this->setMethod('post');
+		$this->setAttrib('action', '/index/inscription');
  
         $this->addElement(	'text', 'inscription_nom', array(
             				'label'      => 'Nom :',
@@ -57,10 +58,5 @@ class Application_Form_Inscription extends Zend_Form
 		$inscription	->setAttrib('onCLick', "$('#inscription').slideUp(500);")
 						->setAttrib('id', 'inscription_fermer');
 		$this->addElement($inscription);
- 
-        // Et une protection anti CSRF
-        $this->addElement('hash', 'csrf', array(
-            'ignore' => true,
-        ));
     }
 }

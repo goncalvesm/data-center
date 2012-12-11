@@ -124,3 +124,13 @@ body a {
 	text-align: center;
 	background: black;
 }
+
+#contenu .erreur {
+	color: white;
+	font-weight: bold;
+	font-size: 16px;
+	background: #B22222;
+	padding: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;	
+}

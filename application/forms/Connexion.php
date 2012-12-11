@@ -28,10 +28,5 @@ class Application_Form_Connexion extends Zend_Form
 		$inscription	->setAttrib('onCLick', "$('#inscription').slideDown(500);")
 						->setAttrib('id', 'connexion_inscription');
 		$this->addElement($inscription);
- 
-        // Et une protection anti CSRF
-        /*$this->addElement('hash', 'csrf', array(
-            'ignore' => true,
-        ));*/
     }
 }
