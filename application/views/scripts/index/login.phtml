@@ -1,51 +1,5 @@
-<form method="post" action="/index/login">
-	Identifiant :
-	<input type="text" name="login"/>
-	Mot de passe :
-	<input type="password" name="pwd"/>
-	<input type="submit" name="connexion" value="Connexion"/>
-	<input type="button" value="S'inscrire" onClick="document.getElementById('inscription').style.display='block';"/>
-</form>
+<?php echo $this->login; ?>
 
 <div id="inscription">
-	<form method="post" action="/index/inscription">
-		<table>
-			<tr>
-				<td>Nom :</td>
-				<td><input type="text" name="nom" /></td>
-			</tr>
-			<tr>
-				<td>Prenom :</td>
-				<td><input type="text" name="prenom" /></td>
-			</tr>
-			<tr>
-				<td>Pseudonyme :</td>
-				<td><input type="text" name="pseudonyme" /></td>
-			</tr>
-			<tr>
-				<td>Adresse e-mail :</td>
-				<td><input type="text" name="e-mail" /></td>
-			</tr>
-			<tr>
-				<td>Mot de passe :</td>
-				<td><input type="text" name="mot de passe" /></td>
-			</tr>
-			<tr>
-				<td>Confirmation du mot de passe :</td>
-				<td><input type="text" name="confirmer mot de passe" /></td>
-			</tr>
-			<tr>
-				<td>Formule :</td>
-				<td>
-					<select name="formule" id="formule">
-						<option value="1">1 Mo</option>
-						<option value="10">10 Mo</option>
-						<option value="100">100 Mo</option>
-					</select>
-				</td>
-			</tr>
-		</table>
-		<input type="submit" name="inscription" value="S'inscrire"/>
-		<input type="button" value="Fermer" onClick="document.getElementById('inscription').style.display='none';"/>
-	</form>
+	<?php  echo $this->inscription; ?>
 </div>

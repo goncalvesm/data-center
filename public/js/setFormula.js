@@ -1,5 +1,5 @@
 function setFormula(formula) {
-	document.getElementById('inscription').style.display='block';
+	$('#inscription').slideDown(500);
 	
 	if(formula == '1'){
 		document.getElementById('formule').selectedIndex = 0;

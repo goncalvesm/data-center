@@ -5,12 +5,13 @@
 		<meta charset="utf-8">
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 		<?php echo $this->headLink()->appendStylesheet('/css/global.css'); ?>
+		<script charset="utf-8" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
 		<script type="text/javascript" src="/js/setFormula.js"></script>
 	</head>
 	<body>
 		<div id="conteneur">
 			<div id="connexion">
-				<?php echo $this->render('/index/login.phtml') ?>
+				<?php echo $this->layout()->login; ?>
 			</div>
 			<div id="header">
 				<p>Profitez de nos différentes offres pour stocker vos données !</p>

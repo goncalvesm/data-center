@@ -61,6 +61,36 @@ body a {
 	border-color: blue;
 }
 
+#connexion .zend_form dt, #connexion .zend_form dd{
+	display: inline;
+}
+
+#inscription {
+	z-index: 2;
+	position: absolute;
+	text-align: left;
+	background: white;
+	color: black;
+	width: 182px;
+	height: 365px;
+	margin-top: 10px;
+	padding: 10px;
+	margin-left: 689px;
+	display: none;
+}
+
+#inscription table tr td input, #inscription table tr td select{
+	margin-left: 10px;
+}
+
+#inscription input[name="inscription"] {
+	margin: 0;
+}
+
+#inscription .zend_form dt, #inscription .zend_form dd{
+	display: block;
+}
+
 #header {
 	z-index: 1;
 	width: 840px; /*900px*/
@@ -93,26 +123,4 @@ body a {
 	color: white;
 	text-align: center;
 	background: black;
-}
-
-#inscription {
-	z-index: 2;
-	position: absolute;
-	text-align: left;
-	background: white;
-	color: black;
-	width: 394px;
-	height: 193px;
-	margin-top: 10px;
-	padding: 10px;
-	margin-left: 477px;
-	display: none;
-}
-
-#inscription table tr td input, #inscription table tr td select{
-	margin-left: 10px;
-}
-
-#inscription input[name="inscription"] {
-	margin: 0;
 }
