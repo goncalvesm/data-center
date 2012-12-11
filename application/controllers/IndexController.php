@@ -5,10 +5,20 @@ class IndexController extends Zend_Controller_Action {
 	protected $_auth;
 	
 	protected $_session;
+	
+	protected $_sqlite;
+	
+	protected $_hash;
 
 	public function init() {
 		$this->_auth = new Zend_Perso_Authentification;
 		$this->_session = new Zend_Perso_Session;
+		$this->_sqlite = new Zend_Perso_Sqlite;
+		$this->_hash = new Zend_Perso_Hash;
+		
+		if($this->_session->get('connecte') == true){
+			$this->_helper->redirector('index', 'interface');
+		}
 	}
 
 	public function indexAction() {
@@ -52,7 +62,64 @@ class IndexController extends Zend_Controller_Action {
 	}
 
 	public function inscriptionAction() {
+		$inscription = new Application_Form_Inscription();
 		
+		$request = $this->getRequest();
+		
+		if ($this->getRequest()->isPost()) {
+            if ($inscription->isValid($request->getPost())) {
+                $nom = $_POST['inscription_nom'];
+				$prenom = $_POST['inscription_prenom'];
+				$pseudo = $_POST['inscription_pseudo'];
+				$mail = $_POST['inscription_email'];
+				$password = $_POST['inscription_password'];
+				$confirmPassword = $_POST['inscription_confirmPassword'];
+				$formule = $_POST['inscription_formule'];
+				$dateCreation = time();
+				
+				var_dump($nom, $prenom, $pseudo, $mail, $password, $confirmPassword, $formule, $dateCreation);die();
+				
+				if($pseudo != '' && $nom != '' && $prenom != '' && $mail != '' && $password != '' && $confirmPaassword != ''){
+					$requete = "SELECT * FROM utilisateurs WHERE  pseudo='".$pseudo."'";
+					$resultat = $this->_sqlite->execute($requete);
+					
+					if(count($resultat) == 0){
+						if($password === $confirmPassword){
+							$password = $this->_hash->hashPassword($password);
+							
+							$requete = "INSERT INTO utilisateurs VALUES('".$nom."','".$prenom."','".$pseudo."','".$mail."','".$password."','".$dateCreation."','".$formule."')";
+							$resultat = $this->_sqlite->execute($requete);
+							
+							$requete = "SELECT * FROM utilisateurs WHERE  pseudo='".$pseudo."'";
+							$resultat = $this->_sqlite->execute($requete);
+							
+							if(count($resultat) == 1){
+								$this->_session->set('utilisateur', $reponse[0]);
+								$this->_session->set('connecte', true);
+								$this->_helper->redirector('index', 'interface');
+							} else {
+								$this->_session->set('message', "Erreur lors de l'inscription de l'utilisateur");
+								$this->_helper->redirector('index', 'index');
+							}
+						} else {
+							$this->_session->set('message', "Les mots de passe doivent etre identiques");
+							$this->_helper->redirector('index', 'index');
+						}
+					} else {
+						$this->_session->set('message', "Ce pseudonyme est déja atribué");
+						$this->_helper->redirector('index', 'index');
+					}
+				} else {
+					$this->_session->set('message', "Les champs marqué d'un asterix sont obligatoires");
+					$this->_helper->redirector('index', 'index');
+				}
+            } else {
+            	$this->_session->set('message', "Les champs marqué d'un asterix sont obligatoires");
+				$this->_helper->redirector('index', 'index');
+            }
+        }
+		
+		$this->_helper->viewRenderer->setNoRender(true);
 	}
 
 }

@@ -8,19 +8,19 @@ class Application_Form_Inscription extends Zend_Form
 		$this->setAttrib('action', '/index/inscription');
  
         $this->addElement(	'text', 'inscription_nom', array(
-            				'label'      => 'Nom :',
+            				'label'      => '* Nom :',
             				'required'   => true,
             				'filters'    => array('StringTrim')
 		));
 		
 		$this->addElement(	'text', 'inscription_prenom', array(
-            				'label'      => 'Prenom :',
+            				'label'      => '* Prenom :',
             				'required'   => true,
             				'filters'    => array('StringTrim')
 		));
 		
 		$this->addElement(	'text', 'inscription_pseudo', array(
-            				'label'      => 'Pseudonyme :',
+            				'label'      => '* Pseudonyme :',
             				'required'   => true,
             				'filters'    => array('StringTrim')
 		));
@@ -35,12 +35,12 @@ class Application_Form_Inscription extends Zend_Form
         ));
 
         $this->addElement('password', 'inscription_password', array(
-            'label'      => 'Mot de passe :',
+            'label'      => '* Mot de passe :',
             'required'   => true)
 		);
 		
 		$this->addElement('password', 'inscription_confirmPassword', array(
-            'label'      => 'Confirmer le mot de passe :',
+            'label'      => '* Confirmer le mot de passe :',
             'required'   => true)
 		);
 		
