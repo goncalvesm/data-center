@@ -9,26 +9,18 @@ class Application_Form_Inscription extends Zend_Form
  
         $this->addElement(	'text', 'inscription_nom', array(
             				'label'      => '* Nom :',
-            				'required'   => true,
-            				'filters'    => array('StringTrim')
 		));
 		
 		$this->addElement(	'text', 'inscription_prenom', array(
             				'label'      => '* Prenom :',
-            				'required'   => true,
-            				'filters'    => array('StringTrim')
 		));
 		
 		$this->addElement(	'text', 'inscription_pseudo', array(
             				'label'      => '* Pseudonyme :',
-            				'required'   => true,
-            				'filters'    => array('StringTrim')
 		));
 		
 		$this->addElement('text', 'inscription_email', array(
             'label'      => 'Adresse mail :',
-            'required'   => true,
-            'filters'    => array('StringTrim'),
             'validators' => array(
                 'EmailAddress',
             )
@@ -36,18 +28,33 @@ class Application_Form_Inscription extends Zend_Form
 
         $this->addElement('password', 'inscription_password', array(
             'label'      => '* Mot de passe :',
-            'required'   => true)
-		);
+		));
 		
 		$this->addElement('password', 'inscription_confirmPassword', array(
             'label'      => '* Confirmer le mot de passe :',
-            'required'   => true)
-		);
+		));
 		
-		$formule = new Zend_Form_Element_Select('formule');
+		$formule = new Zend_Form_Element_Select('inscription_formule');
 		$formule	->setAttrib('id', 'formule')
 					->addMultiOptions(array('1' => '1 Mo', '10' => '10 Mo', '100' => '100 Mo'));
 		$this->addElement($formule);
+		
+		$captcha = new Zend_Form_Element_Captcha('captcha', array(
+		    'label' => "Recopiez le code ci-dessous",
+		    
+			// paramétrage en reprenant les noms de méthodes vus précédemment
+			'captcha' => array(
+		        "captcha" => "Image",
+		        "wordLen" => 6,
+		        "font" => "/fonts/DejaVuSans.ttf",
+				"height" => 50,
+				"width" => 190,
+				"fontSize" => 22,
+				"imgDir" => APPLICATION_PATH."/../public/captcha/",
+				"imgUrl" => "/captcha/"
+		    )
+		));
+		$this->addElement($captcha);
  
         $this->addElement('submit', 'inscription_submit', array(
             'ignore'   => true,

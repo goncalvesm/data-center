@@ -47,6 +47,7 @@ class IndexController extends Zend_Controller_Action {
             if ($login->isValid($request->getPost())) {
                 $id = $_POST['connexion_login'];
 				$password = $_POST['connexion_password'];
+				$password = $this->_hash->hashPassword($password);
 				
 				$resultat = $this->_auth->login($id, $password);
 				
@@ -77,9 +78,7 @@ class IndexController extends Zend_Controller_Action {
 				$formule = $_POST['inscription_formule'];
 				$dateCreation = time();
 				
-				var_dump($nom, $prenom, $pseudo, $mail, $password, $confirmPassword, $formule, $dateCreation);die();
-				
-				if($pseudo != '' && $nom != '' && $prenom != '' && $mail != '' && $password != '' && $confirmPaassword != ''){
+				if($pseudo != '' && $nom != '' && $prenom != '' && $password != '' && $confirmPassword != ''){
 					$requete = "SELECT * FROM utilisateurs WHERE  pseudo='".$pseudo."'";
 					$resultat = $this->_sqlite->execute($requete);
 					
@@ -114,9 +113,12 @@ class IndexController extends Zend_Controller_Action {
 					$this->_helper->redirector('index', 'index');
 				}
             } else {
-            	$this->_session->set('message', "Les champs marqué d'un asterix sont obligatoires");
+            	$this->_session->set('message', "Erreur lors du renseignement de l'un des champs, merci de réessayer");
 				$this->_helper->redirector('index', 'index');
             }
+        } else {
+        	$this->_session->set('message', "Les données doivent etre envoyées en POST et non en GET");
+				$this->_helper->redirector('index', 'index');
         }
 		
 		$this->_helper->viewRenderer->setNoRender(true);
