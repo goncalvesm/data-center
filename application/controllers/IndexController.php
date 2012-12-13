@@ -93,11 +93,12 @@ class IndexController extends Zend_Controller_Action {
 							$resultat = $this->_sqlite->execute($requete);
 							
 							if(count($resultat) == 1){
+								mkdir(APPLICATION_PATH."/../data/".$pseudo."/");
 								$this->_session->set('utilisateur', $reponse[0]);
 								$this->_session->set('connecte', true);
 								$this->_helper->redirector('index', 'interface');
 							} else {
-								$this->_session->set('message', "Erreur lors de l'inscription de l'utilisateur");
+								$this->_session->set('message', "Erreur lors de l'inscription en base de données de l'utilisateur");
 								$this->_helper->redirector('index', 'index');
 							}
 						} else {
@@ -113,6 +114,14 @@ class IndexController extends Zend_Controller_Action {
 					$this->_helper->redirector('index', 'index');
 				}
             } else {
+            	$nom = $_POST['inscription_nom'];
+				$prenom = $_POST['inscription_prenom'];
+				$pseudo = $_POST['inscription_pseudo'];
+				$mail = $_POST['inscription_email'];
+				$password = $_POST['inscription_password'];
+				$confirmPassword = $_POST['inscription_confirmPassword'];
+				$formule = $_POST['inscription_formule'];
+				
             	$this->_session->set('message', "Erreur lors du renseignement de l'un des champs, merci de réessayer");
 				$this->_helper->redirector('index', 'index');
             }

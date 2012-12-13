@@ -89,6 +89,20 @@ body a {
 	min-height: 300px;
 }
 
+#contenu h1 {
+	margin-bottom: 20px;
+}
+
+#contenu ul{
+	padding: 3px;
+	margin-left: 20px;
+	background: white;
+}
+
+#contenu li{
+	padding: 2px;
+}
+
 #footer {
 	width: 880px; /*900px*/
 	height: 20px; /*40px*/
@@ -97,5 +111,16 @@ body a {
 	color: white;
 	text-align: center;
 	background: black;
-	font-size: 
+}
+
+.rouge {
+	color: red;
+}
+
+.vert {
+	color: green;
+}
+
+.souligne {
+	text-decoration: underline;
 }
