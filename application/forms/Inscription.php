@@ -46,7 +46,7 @@ class Application_Form_Inscription extends Zend_Form
 			'captcha' => array(
 		        "captcha" => "Image",
 		        "wordLen" => 6,
-		        "font" => "/fonts/DejaVuSans.ttf",
+		        "font" => APPLICATION_PATH."/../public/fonts/DejaVuSans.ttf",
 				"height" => 50,
 				"width" => 190,
 				"fontSize" => 22,
