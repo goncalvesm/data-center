@@ -94,9 +94,8 @@ body a {
 }
 
 #contenu ul{
-	padding: 3px;
-	margin-left: 20px;
 	background: white;
+	padding: 5px;
 }
 
 #contenu li{
@@ -123,4 +122,13 @@ body a {
 
 .souligne {
 	text-decoration: underline;
+}
+
+.root {
+	color: grey;
+	font-weight: bold;
+}
+
+.decale {
+	margin-left: 20px;
 }

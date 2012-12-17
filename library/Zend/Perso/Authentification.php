@@ -20,7 +20,7 @@ class Zend_Perso_Authentification {
 			if(count($resultat) == 1){
 				if($resultat[0]['motDePasse'] === $motDePasse){
 					$reponse['succes'] = true;
-					$this->_session->set('utilisateur', $reponse[0]);
+					$this->_session->set('utilisateur', $resultat[0]);
 					$this->_session->set('connecte', true);
 				} else {
 					$reponse['succes'] = false;
