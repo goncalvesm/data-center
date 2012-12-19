@@ -56,35 +56,9 @@ body a {
 	margin-bottom: 10px;
 }
 
-#connexion input[type="text"]:focus, #connexion input[type="password"]:focus {
-	border-color: blue;
-}
-
-#menu {
-	width: 160px; /*200px*/
-	padding: 20px;
-	float: left;
-	background: grey;
-	min-height: 300px;
-}
-
-#menu li {
-	margin-bottom: 5px;
-}
-
-#menu li a {
-	text-decoration: underline;
-}
-
-#menu li a:hover {
-	text-decoration: none;
-	color: red;
-}
-
 #contenu {
-	width: 650px; /*690px*/
+	width: 860px;
 	padding: 20px;
-	margin-left: 210px;
 	background: grey;
 	min-height: 300px;
 }
@@ -101,6 +75,11 @@ body a {
 	color: white;
 	text-align: center;
 	background: black;
+}
+
+#upload {
+	display: none;
+	background: white;
 }
 
 #contenu .message {

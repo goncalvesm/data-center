@@ -93,7 +93,7 @@ class IndexController extends Zend_Controller_Action {
 							$resultat = $this->_sqlite->execute($requete);
 							
 							if(count($resultat) == 1){
-								$requete = "INSERT INTO dossiers ('nom','utilisateur','root') VALUES ('".$pseudo."','".$pseudo."','1')";
+								$requete = "INSERT INTO dossiers ('nom', 'chemin', 'utilisateur','root', 'dateCreation') VALUES ('".$pseudo."', '".$pseudo."/', '".$pseudo."','1', '".date("d/m/y")."')";
 								$this->_sqlite->execute($requete);
 								mkdir(APPLICATION_PATH."/../data/".$pseudo."/");
 								$this->_session->set('utilisateur', $resultat[0]);
