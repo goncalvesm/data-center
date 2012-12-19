@@ -93,15 +93,6 @@ body a {
 	margin-bottom: 20px;
 }
 
-#contenu ul{
-	background: white;
-	padding: 5px;
-}
-
-#contenu li{
-	padding: 2px;
-}
-
 #footer {
 	width: 880px; /*900px*/
 	height: 20px; /*40px*/
@@ -110,6 +101,51 @@ body a {
 	color: white;
 	text-align: center;
 	background: black;
+}
+
+#contenu .message {
+	background: green;
+	border: 2px solid black;
+	padding: 5px;
+	color: white;
+}
+
+#contenu .erreur {
+	background: red;
+	border: 2px solid black;
+	padding: 5px;
+	color: white;
+}
+
+#contenu .tableau {
+	background: white;
+	border: 2px solid black;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#contenu .tableau td, #contenu .tableau th {
+	border: thin solid black;
+	padding: 5px;
+	vertical-align: middle;
+}
+
+#contenu .tableau img {
+	display: inline;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+#contenu .tableau .nom {
+	width: 50%;
+}
+
+#contenu .tableau .taille, #contenu .tableau .type {
+	width: 15%;
+}
+
+#contenu .tableau .date {
+	width: 20%;
 }
 
 .rouge {
@@ -131,4 +167,9 @@ body a {
 
 .decale {
 	margin-left: 20px;
+}
+
+.centrer {
+	vertical-align: middle;
+	display: inline;
 }

@@ -4,7 +4,7 @@ class InterfaceController extends Zend_Controller_Action {
 
 	protected $_auth;
 	
-	protected $_sql;
+	protected $_sqlite;
 	
 	protected $_session;
 	
@@ -34,23 +34,28 @@ class InterfaceController extends Zend_Controller_Action {
         exit;
     }
 	
-	protected function _getFiles($chemin){
-	    $this->_contenu .= "<ul class='decale'>";   
-	    $folder = opendir ($chemin);
-	   
-	    while ($file = readdir ($folder)) {
-	        if ($file != "." && $file != "..") {           
-	            $pathfile = $chemin.'/'.$file;           
-	            if(filetype($pathfile) == 'dir'){
-	            	$this->_contenu .= "<li class='rouge'>$file</li>"; 
-	                $this->_getFiles($pathfile);               
-	            } else {
-	            	$this->_contenu .= "<li><a href='/interface/download/?path=$pathfile' class='souligne vert'>$file</a></li>";
-	            }
-	        }
-	    }
-	    closedir ($folder);    
-	    $this->_contenu .= "</ul>";   
+	protected function _getFiles($dossierParent){
+		         
+        $dossiers = $this->_sqlite->execute("SELECT * FROM dossiers WHERE dossierParent='".$dossierParent."'");
+		$fichiers = $this->_sqlite->execute("SELECT * FROM fichiers WHERE dossierParent='".$dossierParent."'");
+		
+		foreach ($dossiers as $value) {
+			$this->_contenu .= "<tr>
+									<td colspan='3'>".$value['nom']."</td>
+									<td>".$value['dateCreation']."</td>
+								</tr>";
+								
+			$this->_getFiles($value['dossierParent']);
+		}
+		foreach ($fichiers as $value) {
+			$this->_contenu .= "<tr>
+									<td>".$value['nom']."</td>
+									<td>".$value['taille']."</td>
+									<td>".$value['type']."</td>
+									<td>".$value['dateCreation']."</td>
+								</tr>";
+		}
+		
 	}
 
 	public function init() {
@@ -67,9 +72,23 @@ class InterfaceController extends Zend_Controller_Action {
 
 	public function indexAction() {
 		$user = $this->_session->get('utilisateur');
-		$this->_contenu = "<ul><li class='root'>".$user['pseudo']."</li>";
-		$this->_getFiles(APPLICATION_PATH."/../data/".$user['pseudo']);
-		$this->_contenu .= "</ul>";
+		
+		$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
+		
+		$this->_contenu = "		<table class='tableau'>
+									<tr>
+										<th class='nom'>Nom</th>
+										<th class='taille'>Taille</th>
+										<th class='type'>Type</th>
+										<th class='date'>Date de création</th>
+									</tr>
+									<tr>
+										<td colspan='3'><img src='/images/root.png' />".$user['pseudo']." (root)</td>
+										<td>".$root[0]['dateCreation']."</td>
+									</tr>";
+		$this->_getFiles($root[0]['id']);
+		$this->_contenu .= "	</table>";
+		
 		$this->view->contenu = $this->_contenu;
 	}
 
@@ -91,13 +110,36 @@ class InterfaceController extends Zend_Controller_Action {
 	
 	public function uploadAction() {
 		$user = $this->_session->get('utilisateur');
-		$adapter = new Zend_File_Transfer_Adapter_Http();
- 
-		$adapter->setDestination(APPLICATION_PATH.'/../data/'.$user['pseudo']);
-		 
-		if (!$adapter->receive()) {
-		    $messages = $adapter->getMessages();
-		    echo implode("\n", $messages);
+		
+		$dossiers = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."'");
+		
+		$this->view->dossiers .= "<select name='dossier'>";
+		foreach ($dossiers as $value) {
+			if($value['root'] == 1){
+				$value['nom'] .= " (root)";
+			}
+			$this->view->dossiers .= "<option value='".$value['id']."'>".$value['nom']."</option>";
+		}
+		$this->view->dossiers .= "</select>";
+		
+		if(isset($_FILES['fichier']) && $_FILES['fichier']['name']!=""){
+			$cheminFichier = $_FILES['fichier']['name'];
+			$nomFichier = basename($cheminFichier);
+			$typeFichier = $_FILES['fichier']['type'];
+			$tailleFichier = $_FILES['fichier']['size'];
+		
+			$adapter = new Zend_File_Transfer_Adapter_Http();
+	
+			$adapter->setDestination(APPLICATION_PATH.'/../data/'.$user['pseudo']);
+			 
+			if (!$adapter->receive()) {
+			    $this->view->message = $adapter->getMessages();
+			} else {
+				$requete = "INSERT INTO fichiers ('nom','chemin','taille','type','utilisateur','dossierParent') VALUES ('".$nomFichier."','".$cheminFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','1')";
+				$this->_sqlite->execute($requete);
+				
+				$this->view->message = "Upload réussi";
+			}
 		}
 	}
 	

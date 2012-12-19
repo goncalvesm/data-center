@@ -10,8 +10,6 @@ class Zend_Perso_Sqlite {
 		$reponse = $this->_db->query($requete);
 		
 		$resultat = $reponse->fetchAll();
-
-		var_dump($resultat);
 		
 		unset($this->_db);
 		

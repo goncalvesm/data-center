@@ -87,14 +87,16 @@ class IndexController extends Zend_Controller_Action {
 							$password = $this->_hash->hashPassword($password);
 							
 							$requete = "INSERT INTO utilisateurs VALUES('".$nom."','".$prenom."','".$pseudo."','".$mail."','".$password."','".$dateCreation."','".$formule."')";
-							$resultat = $this->_sqlite->execute($requete);
+							$this->_sqlite->execute($requete);
 							
 							$requete = "SELECT * FROM utilisateurs WHERE  pseudo='".$pseudo."'";
 							$resultat = $this->_sqlite->execute($requete);
 							
 							if(count($resultat) == 1){
+								$requete = "INSERT INTO dossiers ('nom','utilisateur','root') VALUES ('".$pseudo."','".$pseudo."','1')";
+								$this->_sqlite->execute($requete);
 								mkdir(APPLICATION_PATH."/../data/".$pseudo."/");
-								$this->_session->set('utilisateur', $reponse[0]);
+								$this->_session->set('utilisateur', $resultat[0]);
 								$this->_session->set('connecte', true);
 								$this->_helper->redirector('index', 'interface');
 							} else {
