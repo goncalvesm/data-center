@@ -79,7 +79,9 @@ body a {
 
 #upload {
 	display: none;
+	padding: 20px;
 	background: white;
+	border-radius: 10px;
 }
 
 #contenu .message {

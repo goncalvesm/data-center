@@ -100,7 +100,7 @@ class InterfaceController extends Zend_Controller_Action {
 		
 		$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
 		
-		$this->_contenu = "		<table class='tableau'>
+		$this->_contenu .= "	<table class='tableau'>
 									<tr>
 										<th class='nom'>Nom</th>
 										<th class='taille'>Taille</th>
@@ -132,17 +132,6 @@ class InterfaceController extends Zend_Controller_Action {
 	public function uploadAction() {
 		$user = $this->_session->get('utilisateur');
 		
-		$dossiers = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."'");
-		
-		$this->view->dossiers .= "<select name='dossier'>";
-		foreach ($dossiers as $value) {
-			if($value['root'] == 1){
-				$value['nom'] .= " (root)";
-			}
-			$this->view->dossiers .= "<option value='".$value['id']."'>".$value['nom']."</option>";
-		}
-		$this->view->dossiers .= "</select>";
-		
 		if(isset($_FILES['fichier']) && $_FILES['fichier']['name']!=""){
 			$cheminFichier = $_FILES['fichier']['name'];
 			$nomFichier = basename($cheminFichier);
@@ -162,10 +151,17 @@ class InterfaceController extends Zend_Controller_Action {
 			if (!$adapter->receive()) {
 			    $this->view->message = $adapter->getMessages();
 			} else {
-				$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$dossierParent."','".date("d/m/y")."')";
-				$this->_sqlite->execute($requete);
-				
-				$this->view->message = "Upload réussi";
+				$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."'");
+				if(count($resultat)>0){
+					$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."')";
+				} else {
+					$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$dossierParent."','".date("d/m/y")."')";
+					$this->_sqlite->execute($requete);
+					
+					$this->view->message = "Upload réussi";
+					
+					$this->_helper->redirector('index', 'interface');
+				}
 			}
 		}
 	}
