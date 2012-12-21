@@ -94,6 +94,9 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->message = $this->_session->get("message");
 		$this->_session->set('message', '');
 		
+		$this->view->erreur = $this->_session->get("erreur");
+		$this->_session->set('erreur', '');
+		
 		//$this->_helper->actionStack('index', 'interface', array());
 		$upload = new Application_Form_Upload();
 		//$this->_helper->ViewRenderer->setResponseSegment('upload');
@@ -138,39 +141,40 @@ class InterfaceController extends Zend_Controller_Action {
 		if(isset($_FILES['fichier']) && $_FILES['fichier']['name']!=""){
 			$cheminFichier = $_FILES['fichier']['name'];
 			$nomFichier = basename($cheminFichier);
-			if(!strpos($nomFichier, "'")){
-				
-			}
-			$typeFichier = strrchr($nomFichier,'.');
-			if($typeFichier != false) {
-				$typeFichier = substr($typeFichier,1);
-			} else {
-				$typeFichier = "unknow";
-			}
-			$tailleFichier = $_FILES['fichier']['size'];
-			$dossierParent = $_POST['dossier'];
-		
-			$adapter = new Zend_File_Transfer_Adapter_Http();
-	
-			$adapter->setDestination(APPLICATION_PATH.'/../data/'.$user['pseudo']);
-			 
-			if (!$adapter->receive()) {
-			    $this->_session->set("message", $adapter->getMessages());
-			} else {
-				$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."'");
-				if(count($resultat)>0){
-					$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."')";
-					
-					$this->_session->set("message", "Upload mis à jour");
+			if(!strpos($nomFichier, "%22") && !strpos($nomFichier, "'")){
+				$typeFichier = strrchr($nomFichier,'.');
+				if($typeFichier != false) {
+					$typeFichier = substr($typeFichier,1);
 				} else {
-					$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$dossierParent."','".date("d/m/y")."')";
-					$this->_sqlite->execute($requete);
-					
-					$this->_session->set("message", "Upload réussi");
+					$typeFichier = "unknow";
 				}
+				$tailleFichier = $_FILES['fichier']['size'];
+				$dossierParent = $_POST['dossier'];
+			
+				$adapter = new Zend_File_Transfer_Adapter_Http();
+		
+				$adapter->setDestination(APPLICATION_PATH.'/../data/'.$user['pseudo']);
+				 
+				if (!$adapter->receive()) {
+				    $this->_session->set("message", $adapter->getMessages());
+				} else {
+					$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."'");
+					if(count($resultat)>0){
+						$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."')";
+						
+						$this->_session->set("message", "Upload mis à jour");
+					} else {
+						$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$dossierParent."','".date("d/m/y")."')";
+						$this->_sqlite->execute($requete);
+						
+						$this->_session->set("message", "Upload réussi");
+					}
+				}
+			} else {
+				$this->_session->set("erreur", "Les caractères suivant sont interdits dans les noms de fichier ', \"");
 			}
 		} else {
-			$this->_session->set("message", "Aucun fichier specifié");
+			$this->_session->set("erreur", "Aucun fichier specifié");
 		}
 
 		$this->_helper->redirector('index', 'interface');

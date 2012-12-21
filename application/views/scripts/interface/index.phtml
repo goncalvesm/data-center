@@ -1,6 +1,8 @@
 <?php
 	if($this->message != ""){
 		echo "<div class='message'>".$this->message."</div>";
+	} elseif($this->erreur != ""){
+		echo "<div class='erreur'>".$this->erreur."</div>";
 	}
 ?>
 <div id='upload'>
