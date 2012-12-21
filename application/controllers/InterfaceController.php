@@ -103,7 +103,7 @@ class InterfaceController extends Zend_Controller_Action {
 	 * 
 	 * @return Chemin du dossier
 	 */
-	protected function _getChemin($idDossier) {
+	/*protected function _getChemin($idDossier) {
 		$dossier = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$idDossier."'");
 		
 		$this->_chemin = "".$dossier[0]['nom']."/".$this->_chemin;
@@ -113,7 +113,7 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 		
 		return $this->_chemin;
-	}
+	}*/
 
 	public function init() {
 		$this->_auth = new Zend_Perso_Authentification;
