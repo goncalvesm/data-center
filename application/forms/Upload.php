@@ -4,20 +4,6 @@ class Application_Form_Upload extends Zend_Form
 {
     public function init()
     {
-    	$sqlite = new Zend_Perso_Sqlite;
-		$session = new Zend_Perso_Session;	
-			
-    	$user = $session->get('utilisateur');
-		
-		$dossiersBdd = $sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."'");
-		$dossiersSelect = array();
-		
-		foreach ($dossiersBdd as $value) {
-			if($value['root'] == 1){
-				$value['nom'] .= " (root)";
-			}
-			$dossiersSelect[$value['id']] = $value['nom'];
-		}
 		
 		//Modification du décorateur
 		$this->setDecorators(
@@ -54,13 +40,6 @@ class Application_Form_Upload extends Zend_Form
 		$fichier->addValidator('Size', false, 104857600);
 		$fichier->setDecorators($decorateurFichier);
 		$this->addElement($fichier, 'fichier');
-		
-		$dossier = new Zend_Form_Element_Select('dossier');
-		$dossier->setLabel('Dossier de destination :');
-		$dossier->setAttrib('id', 'dossier');
-		$dossier->addMultiOptions($dossiersSelect);
-		$dossier->setDecorators($decorateur);
-		$this->addElement($dossier);
 		
 		$this->addElement('submit', 'submit', array(
             'ignore'   => true,

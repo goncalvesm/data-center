@@ -190,6 +190,8 @@ class InterfaceController extends Zend_Controller_Action {
 	
 	public function uploadAction() {
 		$user = $this->_session->get('utilisateur');
+		//Définition du dossier racine en fonction du parametre en get
+		$root = $this->_session->get('root');
 		
 		if(isset($_FILES['fichier']) && $_FILES['fichier']['name']!=""){
 			$cheminFichier = $_FILES['fichier']['name'];
@@ -202,9 +204,8 @@ class InterfaceController extends Zend_Controller_Action {
 					$typeFichier = "unknown";
 				}
 				$tailleFichier = $_FILES['fichier']['size'];
-				$dossierParent = $_POST['dossier'];
 				
-				$chemin = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$dossierParent);
+				$chemin = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$root);
 				$chemin = $chemin[0]['chemin'];
 				
 				$adapter = new Zend_File_Transfer_Adapter_Http();
@@ -214,13 +215,13 @@ class InterfaceController extends Zend_Controller_Action {
 				if (!$adapter->receive()) {
 				    $this->_session->set("message", $adapter->getMessages());
 				} else {
-					$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."'");
+					$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$root."'");
 					if(count($resultat)>0){
-						$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."')";
+						$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$root."')";
 						
 						$this->_session->set("message", "Upload mis à jour");
 					} else {
-						$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$dossierParent."','".date("d/m/y")."')";
+						$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$root."','".date("d/m/y")."')";
 						$this->_sqlite->execute($requete);
 						
 						$this->_session->set("message", "Upload réussi");
@@ -233,16 +234,12 @@ class InterfaceController extends Zend_Controller_Action {
 			$this->_session->set("erreur", "Aucun fichier specifié");
 		}
 
-		$this->_helper->redirector('index', 'interface');
+		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$root);
 	}
 	
 	public function creerDossierAction() {
 		$user = $this->_session->get('utilisateur');
 		$idDossierCourant = $this->_session->get('root');
-		if($idDossierCourant == "") {
-			$root = $this->_sqlite->execut("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
-			$idDossierCourant = $root[0]['id'];
-		}
 		
 		if(isset($_POST['validerCreation'])){
 			$nomDossier = $_POST['nom_dossier'];
@@ -257,7 +254,6 @@ class InterfaceController extends Zend_Controller_Action {
 			mkdir(APPLICATION_PATH."/../data/".$chemin);
 		}
 		
-		//$this->_helper->redirector('index', 'interface', 'default', array('parent' => $idDossierCourant));
 		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
 	}
 
