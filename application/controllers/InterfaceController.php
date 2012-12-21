@@ -69,7 +69,7 @@ class InterfaceController extends Zend_Controller_Action {
 		//Récuperation des fichiers contenu dans le dossier parent
 		$fichiers = $this->_sqlite->execute("SELECT * FROM fichiers WHERE dossierParent='".$dossierParent."'");
 		
-		if(count($dossiers)>0 && count($fichiers)>0){
+		if(count($dossiers)>0 || count($fichiers)>0){
 			//Traitement individuel des données récupérées afin d'envoyer un affichage à la vue
 			foreach ($dossiers as $value) {
 				$this->_contenu .= "<tr>
@@ -150,9 +150,12 @@ class InterfaceController extends Zend_Controller_Action {
 		//Définition du dossier racine en fonction du parametre en get
 		if(!isset($_GET['parent'])){
 			$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
+			$root = $root[0]['id'];
 		} else {
-			$root[0]['id'] = $_GET['parent'];
+			$root = $_GET['parent'];
 		}
+		
+		$this->_session->set('root', $root);
 		
 		//création du tableau contenant les dossiers et les fichiers de l'utilisateur
 		$this->_contenu .= "	<table class='tableau'>
@@ -162,7 +165,7 @@ class InterfaceController extends Zend_Controller_Action {
 										<th class='type'>Type</th>
 										<th class='date'>Date d'upload</th>
 									</tr>";
-		$this->_getFiles($root[0]['id']);
+		$this->_getFiles($root);
 		$this->_contenu .= "	</table>";
 		
 		//envois du tableau à la vue
@@ -196,14 +199,17 @@ class InterfaceController extends Zend_Controller_Action {
 				if($typeFichier != false) {
 					$typeFichier = substr($typeFichier,1);
 				} else {
-					$typeFichier = "unknow";
+					$typeFichier = "unknown";
 				}
 				$tailleFichier = $_FILES['fichier']['size'];
 				$dossierParent = $_POST['dossier'];
-			
+				
+				$chemin = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$dossierParent);
+				$chemin = $chemin[0]['chemin'];
+				
 				$adapter = new Zend_File_Transfer_Adapter_Http();
 		
-				$adapter->setDestination(APPLICATION_PATH.'/../data/'.$user['pseudo']);
+				$adapter->setDestination(APPLICATION_PATH.'/../data/'.$chemin);
 				 
 				if (!$adapter->receive()) {
 				    $this->_session->set("message", $adapter->getMessages());
@@ -231,20 +237,28 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 	
 	public function creerDossierAction() {
+		$user = $this->_session->get('utilisateur');
+		$idDossierCourant = $this->_session->get('root');
+		if($idDossierCourant == "") {
+			$root = $this->_sqlite->execut("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
+			$idDossierCourant = $root[0]['id'];
+		}
+		
 		if(isset($_POST['validerCreation'])){
-			$user = $this->_session->get('utilisateur');
 			$nomDossier = $_POST['nom_dossier'];
-			$chemin = $user['pseudo']."/".$nomDossier."/";
 			
-			$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root=1");
+			$dossierCourant = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$idDossierCourant);
 			
-			$requete = "INSERT INTO dossiers ('nom', 'chemin', 'utilisateur','root', 'dateCreation', 'dossierParent') VALUES ('".$nomDossier."', '".$chemin."', '".$user['pseudo']."','0', '".date("d/m/y")."', '".$root[0]['id']."')";
+			$chemin = $dossierCourant[0]['chemin'].$nomDossier."/";
+			
+			$requete = "INSERT INTO dossiers ('nom', 'chemin', 'utilisateur','root', 'dateCreation', 'dossierParent') VALUES ('".$nomDossier."', '".$chemin."', '".$user['pseudo']."','0', '".date("d/m/y")."', '".$dossierCourant[0]['id']."')";
 			$this->_sqlite->execute($requete);
 			
 			mkdir(APPLICATION_PATH."/../data/".$chemin);
 		}
 		
-		$this->_helper->redirector('index', 'interface');
+		//$this->_helper->redirector('index', 'interface', 'default', array('parent' => $idDossierCourant));
+		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
 	}
 
 	public function supprimerDossier() {
