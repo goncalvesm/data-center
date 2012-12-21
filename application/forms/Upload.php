@@ -23,22 +23,19 @@ class Application_Form_Upload extends Zend_Form
 		$this->setAttrib('action', '/interface/upload');
 		
 		$fichier = new Zend_Form_Element_File('fichier');
-		$fichier->setLabel('Uploadez un fichier : ');
+		$fichier->setLabel('Uploadez un fichier :');
 		$fichier->addValidator('Size', false, 104857600);
 		$this->addElement($fichier, 'fichier');
 		
 		$dossier = new Zend_Form_Element_Select('dossier');
 		$dossier	->setAttrib('id', 'dossier')
-					->addMultiOptions($dossiersSelect);
+					->addMultiOptions($dossiersSelect)
+					->setLabel('Dossier de destination :');
 		$this->addElement($dossier);
 		
 		$this->addElement('submit', 'submit', array(
             'ignore'   => true,
             'label'    => 'Upload',
         ));
-		
-		$inscription = new Zend_Form_Element_Button('Fermer');
-		$inscription	->setAttrib('onCLick', "$('#upload').slideUp(500);");
-		$this->addElement($inscription);
     }
 }

@@ -25,7 +25,7 @@ class Application_Form_Connexion extends Zend_Form
 		);
 		
 		$inscription = new Zend_Form_Element_Button('Inscription');
-		$inscription	->setAttrib('onCLick', "$('#inscription').slideDown(500);")
+		$inscription	->setAttrib('onCLick', "$('#inscription').slideToggle(500);")
 						->setAttrib('id', 'connexion_inscription');
 		$this->addElement($inscription);
     }

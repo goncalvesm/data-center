@@ -82,6 +82,7 @@ body a {
 	padding: 20px;
 	background: white;
 	border-radius: 10px;
+	margin-bottom: 20px;
 }
 
 #contenu .message {
@@ -89,6 +90,7 @@ body a {
 	border: 2px solid black;
 	padding: 5px;
 	color: white;
+	margin-bottom: 20px;
 }
 
 #contenu .erreur {
@@ -96,6 +98,7 @@ body a {
 	border: 2px solid black;
 	padding: 5px;
 	color: white;
+	margin-bottom: 20px;
 }
 
 #contenu .tableau {

@@ -60,10 +60,5 @@ class Application_Form_Inscription extends Zend_Form
             'ignore'   => true,
             'label'    => 'Valider',)
 		);
-		
-		$inscription = new Zend_Form_Element_Button('Fermer');
-		$inscription	->setAttrib('onCLick', "$('#inscription').slideUp(500);")
-						->setAttrib('id', 'inscription_fermer');
-		$this->addElement($inscription);
     }
 }

@@ -1,6 +1,11 @@
+<?php
+	if($this->message != ""){
+		echo "<div class='message'>".$this->message."</div>";
+	}
+?>
 <div id='upload'>
 	<?php echo $this->upload; ?>
 </div>
-<input type="button" value="Upload" onClick="$('#upload').slideDown(500);"/>
+<input type="button" value="Upload" onClick="$('#upload').slideToggle(500);"/>
 </br></br>
 <?php echo $this->contenu; ?>

@@ -91,6 +91,9 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	public function indexAction() {
+		$this->view->message = $this->_session->get("message");
+		$this->_session->set('message', '');
+		
 		//$this->_helper->actionStack('index', 'interface', array());
 		$upload = new Application_Form_Upload();
 		//$this->_helper->ViewRenderer->setResponseSegment('upload');
@@ -105,7 +108,7 @@ class InterfaceController extends Zend_Controller_Action {
 										<th class='nom'>Nom</th>
 										<th class='taille'>Taille</th>
 										<th class='type'>Type</th>
-										<th class='date'>Date de création</th>
+										<th class='date'>Date d'upload</th>
 									</tr>";
 		$this->_getFiles($root[0]['id']);
 		$this->_contenu .= "	</table>";
@@ -135,6 +138,9 @@ class InterfaceController extends Zend_Controller_Action {
 		if(isset($_FILES['fichier']) && $_FILES['fichier']['name']!=""){
 			$cheminFichier = $_FILES['fichier']['name'];
 			$nomFichier = basename($cheminFichier);
+			if(!strpos($nomFichier, "'")){
+				
+			}
 			$typeFichier = strrchr($nomFichier,'.');
 			if($typeFichier != false) {
 				$typeFichier = substr($typeFichier,1);
@@ -149,21 +155,25 @@ class InterfaceController extends Zend_Controller_Action {
 			$adapter->setDestination(APPLICATION_PATH.'/../data/'.$user['pseudo']);
 			 
 			if (!$adapter->receive()) {
-			    $this->view->message = $adapter->getMessages();
+			    $this->_session->set("message", $adapter->getMessages());
 			} else {
 				$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."'");
 				if(count($resultat)>0){
 					$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$dossierParent."')";
+					
+					$this->_session->set("message", "Upload mis à jour");
 				} else {
 					$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$dossierParent."','".date("d/m/y")."')";
 					$this->_sqlite->execute($requete);
 					
-					$this->view->message = "Upload réussi";
-					
-					$this->_helper->redirector('index', 'interface');
+					$this->_session->set("message", "Upload réussi");
 				}
 			}
+		} else {
+			$this->_session->set("message", "Aucun fichier specifié");
 		}
+
+		$this->_helper->redirector('index', 'interface');
 	}
 	
 	public function suppressionAction() {
