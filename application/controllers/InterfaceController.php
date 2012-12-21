@@ -1,19 +1,41 @@
 <?php
 
 class InterfaceController extends Zend_Controller_Action {
-
+	
+	/**
+	 * Variable pour l'appel des methodes d'authentification
+	 */
 	protected $_auth;
 	
+	/**
+	 * Variable pour l'appel des methodes sqlite
+	 */
 	protected $_sqlite;
 	
+	/**
+	 * Variable pour l'appel des methodes de session
+	 */
 	protected $_session;
 	
+	/**
+	 * Variable contenant le tableau à afficher dans l'index
+	 */
 	protected $_contenu = "";
 	
+	/**
+	 * Variable utilisée par la methode recursive _getChemin pour stocker le chemin d'un dossier
+	 */
 	protected $_chemin = "";
 	
+	
+	/**
+	 * Fonction permetant à l'utilisateur de télécharger un fichier
+	 * 
+	 * @param filepath string Contient le chemin du fichier à télécharger
+	 */
 	protected function _download($filepath)
     {
+    	//Récuperation des informations sur le fichier
 		$file = basename($filepath);
     	$filesize = filesize($filepath);
         $filemd5 = md5_file($filepath);
@@ -23,7 +45,6 @@ class InterfaceController extends Zend_Controller_Action {
         header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
         header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
         // Informations sur le contenu à envoyer
-       // header('Content-Tranfer-Encoding: ' . $type . "\n");
         header('Content-Length: ' . $filesize);
         header('Content-MD5: ' . base64_encode($filemd5));
         header('Content-Type: application/force-download; name="' . $file . '"');
@@ -36,36 +57,52 @@ class InterfaceController extends Zend_Controller_Action {
         exit;
     }
 	
+	/**
+	 * Fonction qui récupère les fichiers et dossiers enfants d'un dossier parent donné en parametre
+	 * 
+	 * @param dossierParent integer Contient l'id du dossier parent
+	 */
 	protected function _getFiles($dossierParent){
-        $dossiers = $this->_sqlite->execute("SELECT * FROM dossiers WHERE dossierParent='".$dossierParent."' OR id='".$dossierParent."'");
+		//Lecture en base des dossiers enfants du dossier parent donné en paramètre
+        $dossiers = $this->_sqlite->execute("SELECT * FROM dossiers WHERE dossierParent='".$dossierParent."'");
 		
-		foreach ($dossiers as $value) {
-			$fichiers = $this->_sqlite->execute("SELECT * FROM fichiers WHERE dossierParent='".$value['id']."'");
-			
-			$this->_contenu .= "<tr>";
-			if($value['root'] == 1){
-				$this->_contenu .= 	"<td colspan='3'><img src='/images/root.png'/>".$value['nom']." (root)</td>";
-			} else {
-				$this->_contenu .= 	"<td colspan='3'><img src='/images/dossier.png'/>".$value['nom']."</td>";
-			}
-			
-			$this->_contenu	.= 		"<td>".$value['dateCreation']."</td>
-								</tr>";
-			foreach ($fichiers as $subvalue) {
+		//Récuperation des fichiers contenu dans le dossier parent
+		$fichiers = $this->_sqlite->execute("SELECT * FROM fichiers WHERE dossierParent='".$dossierParent."'");
+		
+		if(count($dossiers)>0 && count($fichiers)>0){
+			//Traitement individuel des données récupérées afin d'envoyer un affichage à la vue
+			foreach ($dossiers as $value) {
 				$this->_contenu .= "<tr>
-										<td><img src='/images/doc.png'/><a href='/interface/download?path=".APPLICATION_PATH."/../data/".$value['chemin'].$subvalue['nom']."'>".$subvalue['nom']."</a></td>
+								 		<td colspan='3'><img src='/images/dossier.png'/><a href='/interface/index?parent=".$value['id']."'>".$value['nom']."</a></td>
+										<td>".$value['dateCreation']."</td>
+									</tr>";
+			}
+	
+			//Mise en forme des fichiers
+			foreach ($fichiers as $subvalue) {
+				$dossierParent = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$subvalue['dossierParent']."'");
+				
+				$this->_contenu .= "<tr>
+										<td><img src='/images/doc.png'/><a href='/interface/download?path=".APPLICATION_PATH."/../data/".$dossierParent[0]['chemin'].$subvalue['nom']."'>".$subvalue['nom']."</a></td>
 										<td>".round(($subvalue['taille'] / 1024)/1024, 2)." Mo</td>
 										<td>".$subvalue['type']."</td>
 										<td>".$subvalue['dateCreation']."</td>
 									</tr>";
 			}
-			
-			if(!is_null($value['dossierParent'])){
-				$this->_getFiles($value['dossierParent']);
-			}
+		} else {
+			$this->_contenu .= "<tr>
+									<td colspan=\"4\">Dossier vide</td>
+								</tr>";
 		}
 	}
 	
+	/**
+	 * Fonction permetant de récuperer le chemin d'un dossier grace à son id
+	 * 
+	 * @param idDossier integer Contient l'id du dossier
+	 * 
+	 * @return Chemin du dossier
+	 */
 	protected function _getChemin($idDossier) {
 		$dossier = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$idDossier."'");
 		
@@ -91,21 +128,33 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 
 	public function indexAction() {
+		//Envois du message stocké en session à la vue
 		$this->view->message = $this->_session->get("message");
 		$this->_session->set('message', '');
 		
+		//Envois de l'erreur stockée en session à la vue
 		$this->view->erreur = $this->_session->get("erreur");
 		$this->_session->set('erreur', '');
 		
-		//$this->_helper->actionStack('index', 'interface', array());
+		//Envois du formulaire d'upload a la vue
 		$upload = new Application_Form_Upload();
-		//$this->_helper->ViewRenderer->setResponseSegment('upload');
 		$this->view->upload = $upload;
 		
+		//Envois du formulaire de création de dossier à la racine
+		$createFolder = new Application_Form_CreateFolder();
+		$this->view->createFolder = $createFolder;
+		
+		//Récupération des infos de l'utilisateur
 		$user = $this->_session->get('utilisateur');
 		
-		$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
+		//Définition du dossier racine en fonction du parametre en get
+		if(!isset($_GET['parent'])){
+			$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
+		} else {
+			$root[0]['id'] = $_GET['parent'];
+		}
 		
+		//création du tableau contenant les dossiers et les fichiers de l'utilisateur
 		$this->_contenu .= "	<table class='tableau'>
 									<tr>
 										<th class='nom'>Nom</th>
@@ -116,6 +165,7 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->_getFiles($root[0]['id']);
 		$this->_contenu .= "	</table>";
 		
+		//envois du tableau à la vue
 		$this->view->contenu = $this->_contenu;
 	}
 
@@ -180,7 +230,24 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->_helper->redirector('index', 'interface');
 	}
 	
-	public function suppressionAction() {
+	public function creerDossierAction() {
+		if(isset($_POST['validerCreation'])){
+			$user = $this->_session->get('utilisateur');
+			$nomDossier = $_POST['nom_dossier'];
+			$chemin = $user['pseudo']."/".$nomDossier."/";
+			
+			$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root=1");
+			
+			$requete = "INSERT INTO dossiers ('nom', 'chemin', 'utilisateur','root', 'dateCreation', 'dossierParent') VALUES ('".$nomDossier."', '".$chemin."', '".$user['pseudo']."','0', '".date("d/m/y")."', '".$root[0]['id']."')";
+			$this->_sqlite->execute($requete);
+			
+			mkdir(APPLICATION_PATH."/../data/".$chemin);
+		}
+		
+		$this->_helper->redirector('index', 'interface');
+	}
+
+	public function supprimerDossier() {
 		
 	}
 }

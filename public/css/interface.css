@@ -85,6 +85,14 @@ body a {
 	margin-bottom: 20px;
 }
 
+#newFolder {
+	display: none;
+	padding: 20px;
+	background: white;
+	border-radius: 10px;
+	margin-bottom: 20px;
+}
+
 #contenu .message {
 	background: green;
 	border: 2px solid black;

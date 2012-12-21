@@ -8,6 +8,10 @@
 <div id='upload'>
 	<?php echo $this->upload; ?>
 </div>
-<input type="button" value="Upload" onClick="$('#upload').slideToggle(500);"/>
+<div id='newFolder'>
+	<?php echo $this->createFolder; ?>
+</div>
+<input type="button" value="Upload" onClick="$('#upload').slideToggle(500, function(){if($('#newFolder').css('display')=='block'){$('#newFolder').slideUp(500);}});"/>
+<input type="button" value="Créer un dossier à la racine" onClick="$('#newFolder').slideToggle(500, function(){if($('#upload').css('display')=='block'){$('#upload').slideUp(500);}});"/>
 </br></br>
 <?php echo $this->contenu; ?>
