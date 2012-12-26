@@ -144,8 +144,26 @@ class InterfaceController extends Zend_Controller_Action {
 		$createFolder = new Application_Form_CreateFolder();
 		$this->view->createFolder = $createFolder;
 		
+		//Envois du formulaire de changemeent d'option à la vue
+		$changementOption = new Application_Form_ChangementOption();
+		$this->view->changementOption = $changementOption;
+		
 		//Récupération des infos de l'utilisateur
 		$user = $this->_session->get('utilisateur');
+		
+		//Calcule de l'espace de stockage restant
+		$formule = $user['formule'];
+		$espaceOccupe = $this->_sqlite->execute("SELECT SUM(taille) AS total FROM fichiers WHERE utilisateur='".$user['pseudo']."'");
+		$espaceOccupe = round(($espaceOccupe[0]['total'] / 1024)/1024, 2);
+		$espaceRestant = $formule-$espaceOccupe;
+		$this->view->espaceRestant = $espaceRestant;
+		
+		//Affichage du formulaire de changement de formule en fonction de la valeur en session
+		if($this->_session->get('changerOption')){
+			$this->view->changerOption = true;
+			
+			$this->_session->set('changerOption', false);
+		}
 		
 		//Définition du dossier racine en fonction du parametre en get
 		if(!isset($_GET['parent'])){
@@ -205,27 +223,39 @@ class InterfaceController extends Zend_Controller_Action {
 				}
 				$tailleFichier = $_FILES['fichier']['size'];
 				
-				$chemin = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$root);
-				$chemin = $chemin[0]['chemin'];
+				//Calcule de l'espace de stockage restant
+				$formule = $user['formule'];
+				$espaceOccupe = $this->_sqlite->execute("SELECT SUM(taille) AS total FROM fichiers WHERE utilisateur='".$user['pseudo']."'");
+				$espaceOccupe = round(($espaceOccupe[0]['total']+$tailleFichier / 1024)/1024, 2);
+				$espaceRestant = $formule-$espaceOccupe;
 				
-				$adapter = new Zend_File_Transfer_Adapter_Http();
-		
-				$adapter->setDestination(APPLICATION_PATH.'/../data/'.$chemin);
-				 
-				if (!$adapter->receive()) {
-				    $this->_session->set("message", $adapter->getMessages());
-				} else {
-					$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$root."'");
-					if(count($resultat)>0){
-						$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$root."')";
-						
-						$this->_session->set("message", "Upload mis à jour");
+				if($espaceRestant>0){
+					$chemin = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$root);
+					$chemin = $chemin[0]['chemin'];
+					
+					$adapter = new Zend_File_Transfer_Adapter_Http();
+			
+					$adapter->setDestination(APPLICATION_PATH.'/../data/'.$chemin);
+					 
+					if (!$adapter->receive()) {
+					    $this->_session->set("message", $adapter->getMessages());
 					} else {
-						$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$root."','".date("d/m/y")."')";
-						$this->_sqlite->execute($requete);
-						
-						$this->_session->set("message", "Upload réussi");
+						$resultat = $this->_sqlite->execute("SELECT * FROM fichiers WHERE nom='".$nomFichier."' AND dossierParent='".$root."'");
+						if(count($resultat)>0){
+							$requete = "UPDATE fichiers SET 'taille'='".$tailleFichier."', 'dateCreation'='".date("d/m/y")."' WHERE nom='".$nomFichier."' AND dossierParent='".$root."')";
+							
+							$this->_session->set("message", "Upload mis à jour");
+						} else {
+							$requete = "INSERT INTO fichiers ('nom','taille','type','utilisateur','dossierParent', 'dateCreation') VALUES ('".$nomFichier."','".$tailleFichier."','".$typeFichier."','".$user['pseudo']."','".$root."','".date("d/m/y")."')";
+							$this->_sqlite->execute($requete);
+							
+							$this->_session->set("message", "Upload réussi");
+						}
 					}
+				} else {
+					$this->_session->set("erreur", "Vous ne disposez pas d'assez d'espace de stockage pour uploader ce fichier !");
+					
+					$this->_session->set('changerOption', true);
 				}
 			} else {
 				$this->_session->set("erreur", "Les caractères suivant sont interdits dans les noms de fichier ', \"");

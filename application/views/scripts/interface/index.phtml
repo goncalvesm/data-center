@@ -5,6 +5,15 @@
 		echo "<div class='erreur'>".$this->erreur."</div>";
 	}
 ?>
+<div>
+	<?php echo $this->espaceRestant." Mo d'espace disponnible"; ?>
+</div>
+<br>
+<?php
+	if($this->changerOption){
+		echo "<div id='changementOption'>".$this->changementOption."</div>";
+	}
+?>
 <div id='upload'>
 	<?php echo $this->upload; ?>
 </div>

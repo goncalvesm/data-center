@@ -77,7 +77,7 @@ body a {
 	background: black;
 }
 
-#upload {
+#upload, #newFolder, #changementOption {
 	display: none;
 	padding: 20px;
 	background: white;
@@ -85,12 +85,8 @@ body a {
 	margin-bottom: 20px;
 }
 
-#newFolder {
-	display: none;
-	padding: 20px;
-	background: white;
-	border-radius: 10px;
-	margin-bottom: 20px;
+#changementOption {
+	display: block;
 }
 
 #contenu .message {
