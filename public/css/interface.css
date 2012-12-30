@@ -125,15 +125,23 @@ body a {
 }
 
 #contenu .tableau .nom {
-	width: 50%;
+	width: 55%;
 }
 
-#contenu .tableau .taille, #contenu .tableau .type {
+#contenu .tableau .taille {
 	width: 15%;
 }
 
+#contenu .tableau .type {
+	width: 10%;	
+}
+
 #contenu .tableau .date {
-	width: 20%;
+	width: 10%;
+}
+
+#contenu .tableau .actions {
+	width: 10%;
 }
 
 .rouge {

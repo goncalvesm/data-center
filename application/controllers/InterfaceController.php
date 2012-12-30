@@ -75,6 +75,7 @@ class InterfaceController extends Zend_Controller_Action {
 				$this->_contenu .= "<tr>
 								 		<td colspan='3'><img src='/images/dossier.png'/><a href='/interface/index?parent=".$value['id']."'>".$value['nom']."</a></td>
 										<td>".$value['dateCreation']."</td>
+										<td><a href='/interface/supprimer-dossier?id=".$value['id']."'><img src='/images/supp_dossier.png' /></a></td>
 									</tr>";
 			}
 	
@@ -87,33 +88,32 @@ class InterfaceController extends Zend_Controller_Action {
 										<td>".round(($subvalue['taille'] / 1024)/1024, 2)." Mo</td>
 										<td>".$subvalue['type']."</td>
 										<td>".$subvalue['dateCreation']."</td>
+										<td><a href='/interface/supprimer-fichier?id=".$subvalue['id']."'><img src='/images/supp_fichier.png' /></a></td>
 									</tr>";
 			}
 		} else {
 			$this->_contenu .= "<tr>
-									<td colspan=\"4\">Dossier vide</td>
+									<td colspan=\"5\">Dossier vide</td>
 								</tr>";
 		}
 	}
-	
-	/**
-	 * Fonction permetant de récuperer le chemin d'un dossier grace à son id
-	 * 
-	 * @param idDossier integer Contient l'id du dossier
-	 * 
-	 * @return Chemin du dossier
-	 */
-	/*protected function _getChemin($idDossier) {
-		$dossier = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$idDossier."'");
-		
-		$this->_chemin = "".$dossier[0]['nom']."/".$this->_chemin;
-		
-		if($dossier[0]['dossierParent'] != ""){
-			$this->_getChemin($dossier[0]['dossierParent']);
-		}
-		
-		return $this->_chemin;
-	}*/
+
+	protected function _rrmdir($dir) {
+		if (is_dir($dir)) {
+			$objects = scandir($dir);
+			foreach ($objects as $object) {
+				if ($object != "." && $object != "..") {
+					if (filetype($dir."/".$object) == "dir"){
+						$this->_rrmdir($dir."/".$object); 
+					} else {
+						unlink($dir."/".$object);
+					}
+				}
+			}
+			reset($objects);
+			return rmdir($dir);
+		} 
+	}
 
 	public function init() {
 		$this->_auth = new Zend_Perso_Authentification;
@@ -182,8 +182,10 @@ class InterfaceController extends Zend_Controller_Action {
 										<th class='taille'>Taille</th>
 										<th class='type'>Type</th>
 										<th class='date'>Date d'upload</th>
+										<th class='actions'>Actions</th>
 									</tr>";
 		$this->_getFiles($root);
+		
 		$this->_contenu .= "	</table>";
 		
 		//envois du tableau à la vue
@@ -226,7 +228,7 @@ class InterfaceController extends Zend_Controller_Action {
 				//Calcule de l'espace de stockage restant
 				$formule = $user['formule'];
 				$espaceOccupe = $this->_sqlite->execute("SELECT SUM(taille) AS total FROM fichiers WHERE utilisateur='".$user['pseudo']."'");
-				$espaceOccupe = round(($espaceOccupe[0]['total']+$tailleFichier / 1024)/1024, 2);
+				$espaceOccupe = round((($espaceOccupe[0]['total']+$tailleFichier) / 1024)/1024, 2);
 				$espaceRestant = $formule-$espaceOccupe;
 				
 				if($espaceRestant>0){
@@ -268,26 +270,87 @@ class InterfaceController extends Zend_Controller_Action {
 	}
 	
 	public function creerDossierAction() {
-		$user = $this->_session->get('utilisateur');
 		$idDossierCourant = $this->_session->get('root');
 		
 		if(isset($_POST['validerCreation'])){
+			$user = $this->_session->get('utilisateur');
+			
 			$nomDossier = $_POST['nom_dossier'];
 			
 			$dossierCourant = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$idDossierCourant);
 			
 			$chemin = $dossierCourant[0]['chemin'].$nomDossier."/";
 			
-			$requete = "INSERT INTO dossiers ('nom', 'chemin', 'utilisateur','root', 'dateCreation', 'dossierParent') VALUES ('".$nomDossier."', '".$chemin."', '".$user['pseudo']."','0', '".date("d/m/y")."', '".$dossierCourant[0]['id']."')";
-			$this->_sqlite->execute($requete);
 			
-			mkdir(APPLICATION_PATH."/../data/".$chemin);
+			if(mkdir(APPLICATION_PATH."/../data/".$chemin)){
+				$requete = "INSERT INTO dossiers ('nom', 'chemin', 'utilisateur','root', 'dateCreation', 'dossierParent') VALUES ('".$nomDossier."', '".$chemin."', '".$user['pseudo']."','0', '".date("d/m/y")."', '".$dossierCourant[0]['id']."')";
+				$this->_sqlite->execute($requete);
+			} else {
+				$this->_session->set("erreur", "Erreur serveur lors de la création du dossier");
+			}
 		}
 		
 		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
 	}
 
-	public function supprimerDossier() {
+	public function supprimerDossierAction() {
+		$idDossierCourant = $this->_session->get('root');
 		
+		if(isset($_GET['id'])){
+			$idDossier = $_GET['id'];
+			
+			$dossier = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$idDossier."'");
+			$dossier = $dossier[0];
+			
+			$resultat = $this->_rrmdir(APPLICATION_PATH."/../data/".$dossier['chemin']);
+
+			if($resultat) {
+				$dossiersEnfant = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$idDossier."' OR dossierParent='".$idDossier."'");
+
+				foreach ($dossiersEnfant as $value) {
+					$this->_sqlite->execute("DELETE FROM fichiers WHERE dossierParent='".$value['id']."'");
+				}
+
+				$resultat = $this->_sqlite->execute("DELETE FROM dossiers WHERE id='".$idDossier."' OR dossierParent='".$idDossier."'");
+
+			} else {
+				$this->_session->set("erreur", "Erreur serveur lors de la suppression du dossier");
+			}
+		}
+
+		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
+	}
+	
+	public function supprimerFichierAction() {
+		$idDossierCourant = $this->_session->get('root');
+		
+		if(isset($_GET['id'])){
+			$idFichier = $_GET['id'];
+			
+			$fichier = $this->_sqlite->execute("SELECT * FROM fichiers WHERE id='".$idFichier."'");
+			
+			if(count($fichier)>0){
+				$dossierParent = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$fichier[0]['dossierParent']."'");
+				$nomFichier = $fichier[0]['nom'];
+				
+				if(count($dossierParent)>0){
+					$chemin = APPLICATION_PATH."/../data/".$dossierParent[0]['chemin'].$nomFichier;
+				} else {
+					$chemin = APPLICATION_PATH."/../data/".$nomFichier;
+				}
+				
+				$resultat = unlink($chemin);
+				
+				if($resultat) {
+					$this->_sqlite->execute("DELETE FROM fichiers WHERE id='".$idFichier."'");
+				} else {
+					$this->_session->set("erreur", "Erreur du serveur lors de la suppression du fichier");
+				}
+			} else {
+				$this->_session->set("erreur", "Le fichier demandé n'existe pas ou n'est pas référencé");
+			}
+		}
+		
+		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
 	}
 }
