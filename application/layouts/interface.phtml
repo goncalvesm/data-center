@@ -10,7 +10,7 @@
 	<body>
 		<div id="conteneur">
 			<div id="connexion">
-				<form method="post" action="/interface/logout">Bienvenue sur l'interface de gestion de vos fichiers <input type="submit" value="Déconnexion"/></form>
+				<form method="post" action="/interface/logout">Bienvenue sur l'interface de gestion de vos fichiers <span class="rouge"><?php echo $this->pseudo; ?></span> <input type="submit" value="Déconnexion"/></form>
 			</div>
 			<div id="contenu">
 				<?php echo $this -> layout() -> content; ?>

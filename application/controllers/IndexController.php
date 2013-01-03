@@ -86,7 +86,7 @@ class IndexController extends Zend_Controller_Action {
 						if($password === $confirmPassword){
 							$password = $this->_hash->hashPassword($password);
 							
-							$requete = "INSERT INTO utilisateurs VALUES('".$nom."','".$prenom."','".$pseudo."','".$mail."','".$password."','".$dateCreation."','".$formule."')";
+							$requete = "INSERT INTO utilisateurs ('nom', 'prenom', 'pseudo','email', 'motDePasse', 'dateCreation', 'formule') VALUES('".$nom."','".$prenom."','".$pseudo."','".$mail."','".$password."','".$dateCreation."','".$formule."')";
 							$this->_sqlite->execute($requete);
 							
 							$requete = "SELECT * FROM utilisateurs WHERE  pseudo='".$pseudo."'";

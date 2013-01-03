@@ -1,0 +1,141 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/*********************************************************************************/
+
+body {
+	margin: 0;
+	background: #DFDFDF;
+}
+
+body a {
+	text-decoration: none;
+	color: black;
+}
+
+#conteneur {
+	margin: 0 auto;
+	margin-top: 0;
+	width: 900px;
+}
+
+#connexion {
+	width: 880px; /*900px*/
+	height: 25px; /*45px*/
+	padding: 10px;
+	text-align: right;
+	background: black;
+	color: white;
+	margin-bottom: 10px;
+}
+
+#contenu {
+	width: 860px;
+	padding: 20px;
+	background: grey;
+	min-height: 300px;
+}
+
+#contenu h1 {
+	margin-bottom: 20px;
+}
+
+#footer {
+	width: 880px; /*900px*/
+	height: 20px; /*40px*/
+	padding: 10px;
+	margin-top: 10px;
+	color: white;
+	text-align: center;
+	background: black;
+}
+
+#contenu .message {
+	background: green;
+	border: 2px solid black;
+	padding: 5px;
+	color: white;
+	margin-bottom: 20px;
+}
+
+#contenu .erreur {
+	background: red;
+	border: 2px solid black;
+	padding: 5px;
+	color: white;
+	margin-bottom: 20px;
+}
+
+#contenu .tableau {
+	background: white;
+	border: 2px solid black;
+	border-collapse: collapse;
+	width: 100%;
+}
+
+#contenu .tableau td, #contenu .tableau th {
+	border: thin solid black;
+	padding: 5px;
+	vertical-align: middle;
+}
+
+#contenu .tableau img {
+	display: inline;
+	vertical-align: middle;
+	margin-right: 10px;
+}
+
+#contenu .tableau .nom {
+	width: 20%;
+}
+
+#contenu .tableau .prenom {
+	width: 20%;
+}
+
+#contenu .tableau .pseudo {
+	width: 20%;	
+}
+
+#contenu .tableau .formule {
+	width: 10%;
+}
+
+#contenu .tableau .espaceDispo {
+	width: 10%;
+}
+
+#contenu .tableau .actions {
+	width: 20%;
+}
+
+.rouge {
+	color: red;
+}

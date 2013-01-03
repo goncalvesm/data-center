@@ -125,6 +125,12 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 		
 		$this->_helper->layout->setLayout('interface');
+		
+		$user = $this->_session->get('utilisateur');
+		$this->view->pseudo = $user['pseudo'];
+		if($user['droit'] == "admin"){
+			$this->_helper->redirector('index', 'admin');
+		}
 	}
 
 	public function indexAction() {
