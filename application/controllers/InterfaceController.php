@@ -142,6 +142,9 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->view->erreur = $this->_session->get("erreur");
 		$this->_session->set('erreur', '');
 		
+		$twitter = new Application_Form_Twitter();
+		$this->view->twitter = $twitter;
+		
 		//Envois du formulaire d'upload a la vue
 		$upload = new Application_Form_Upload();
 		$this->view->upload = $upload;
