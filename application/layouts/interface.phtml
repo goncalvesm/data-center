@@ -5,13 +5,23 @@
 		<meta charset="utf-8">
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
 		<script charset="utf-8" src="/js/jquery.js"></script>
+		<?php echo $this->headLink()->appendStylesheet('/css/bootstrap.min.css')?>
 		<?php echo $this->headLink()->appendStylesheet('/css/interface.css')?>
 	</head>
 	<body>
-		<div id="conteneur">
-			<div id="connexion">
-				<form method="post" action="/interface/logout">Bienvenue sur l'interface de gestion de vos fichiers <span class="rouge"><?php echo $this->pseudo; ?></span> <input type="submit" value="Déconnexion"/></form>
+		
+		<div class="container">
+			<div class="navbar navbar-inverse">
+				<div class="navbar-inner">
+					<a class="brand" href="/">Datacenter</a>
+					<form method="post" action="/interface/logout" class="navbar-form pull-right">
+						<input type="submit" value="Déconnexion" class="btn btn-danger"/>
+					</form>
+				</div>
 			</div>
+		</div>
+		
+		<div class="container">
 			<div id="contenu">
 				<?php echo $this -> layout() -> content; ?>
 			</div>
