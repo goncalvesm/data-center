@@ -29,7 +29,7 @@ class AdminController extends Zend_Controller_Action {
 								<th class='nom'>Nom</th>
 								<th class='prenom'>Prenom</th>
 								<th class='pseudo'>Pseudo</th>
-								<th class='formule'>Formule</th>
+								<th class='droit'>Droit</th>
 								<th class='espaceDispo'>Espace disponnible</th>
 								<th class='actions'>Actions</th>
 							</tr>";
@@ -45,9 +45,20 @@ class AdminController extends Zend_Controller_Action {
 								<td>".$value['nom']."</td>
 								<td>".$value['prenom']."</td>
 								<td>".$value['pseudo']."</td>
-								<td>".$value['formule']."</td>
-								<td>".$espaceRestant."</td>
-								<td><img src='/images/supp_user.png' /></td>
+								<td>".$value['droit']."</td>
+								<td class='centrer'>";
+								if($value['droit'] == "utilisateur"){
+									$contenu .= $espaceOccupe." Mo occupé sur".$formule." Mo<br/>
+									<progress value=\"".$espaceOccupe."\" max=\"".$formule."\"></progress><br/>
+									".$espaceRestant." Mo Restant";
+								} else {
+									$contenu .= "desactivé";
+								}
+			$contenu .=	"		</td>
+								<td>
+									<a href=\"/admin/supprimer-utilisateur?id=".$value['pseudo']."\"><img src=\"/images/supp_user.png\" title=\"Supprimer l'utilisateur\" /></a>
+									<a href=\"/admin/editer-utilisateur?id=".$value['pseudo']."\"><img src=\"/images/edit_user.png\" title=\"Editer l'utilisateur/Modifier formule\" /></a>
+								</td>
 							</tr>";	
 		}
 
@@ -60,5 +71,13 @@ class AdminController extends Zend_Controller_Action {
 		$result = $this->_auth->logout();
 		
 		$this->_helper->redirector('index', 'index');
+	}
+	
+	public function editerUtilisateurAction() {
+		
+	}
+	
+	public function supprimerUtilisateurAction() {
+		
 	}
 }

@@ -113,29 +113,33 @@ body a {
 }
 
 #contenu .tableau .nom {
-	width: 20%;
+	width: 15%;
 }
 
 #contenu .tableau .prenom {
-	width: 20%;
+	width: 15%;
 }
 
 #contenu .tableau .pseudo {
-	width: 20%;	
+	width: 15%;	
 }
 
-#contenu .tableau .formule {
-	width: 10%;
+#contenu .tableau .droit {
+	width: 15%;
 }
 
 #contenu .tableau .espaceDispo {
-	width: 10%;
+	width: 25%;
 }
 
 #contenu .tableau .actions {
-	width: 20%;
+	width: 15%;
 }
 
 .rouge {
 	color: red;
+}
+
+.centrer {
+	text-align: center;
 }
