@@ -1,46 +1,56 @@
 <?php
 
-class Application_Form_Inscription extends Zend_Form
+class Application_Form_Inscription extends Twitter_Bootstrap_Form_Horizontal
 {
     public function init()
     {
+        $this->setIsArray(true);
+        $this->setElementsBelongTo('bootstrap');
+
+        $this->_addClassNames('well');	
+			
         $this->setMethod('post');
 		$this->setAttrib('action', '/index/inscription');
  
         $this->addElement(	'text', 'inscription_nom', array(
-            				'label'      => '* Nom :',
+            				'placeholder'      => '* Nom',
 		));
 		
 		$this->addElement(	'text', 'inscription_prenom', array(
-            				'label'      => '* Prenom :',
+            				'placeholder'      => '* Prenom',
 		));
 		
 		$this->addElement(	'text', 'inscription_pseudo', array(
-            				'label'      => '* Pseudonyme :',
+            				'placeholder'      => '* Pseudonyme',
 		));
 		
 		$this->addElement('text', 'inscription_email', array(
-            'label'      => 'Adresse mail :',
+            'placeholder'      => 'Adresse mail',
             'validators' => array(
                 'EmailAddress',
             )
         ));
 
         $this->addElement('password', 'inscription_password', array(
-            'label'      => '* Mot de passe :',
+            'placeholder'      => '* Mot de passe',
 		));
 		
 		$this->addElement('password', 'inscription_confirmPassword', array(
-            'label'      => '* Confirmer le mot de passe :',
+            'placeholder'      => '* Confirmer le mot de passe',
 		));
 		
-		$formule = new Zend_Form_Element_Select('inscription_formule');
-		$formule	->setAttrib('id', 'formule')
-					->addMultiOptions(array('1' => '1 Mo', '10' => '10 Mo', '100' => '100 Mo'));
-		$this->addElement($formule);
+		$this->addElement(	'select', 'formule', array(
+            				'id'			=> 'formule',
+            				'multiOptions'	=> array(
+            					'1' => '1 Mo', 
+            					'10' => '10 Mo',
+            					'100' => '100 Mo',
+							)
+            				
+		));
 		
-		$captcha = new Zend_Form_Element_Captcha('captcha', array(
-		    'label' => "Recopiez le code ci-dessous",
+		$this->addElement ('captcha', 'captcha', array(
+		    'placeholder' => "Recopiez le code ci-dessus",
 		    
 			// paramétrage en reprenant les noms de méthodes vus précédemment
 			'captcha' => array(
@@ -51,14 +61,12 @@ class Application_Form_Inscription extends Zend_Form
 				"width" => 190,
 				"fontSize" => 22,
 				"imgDir" => APPLICATION_PATH."/../public/captcha/",
-				"imgUrl" => "/captcha/"
-		    )
-		));
-		$this->addElement($captcha);
+				"imgUrl" => "/captcha/",
+		)));
  
-        $this->addElement('submit', 'inscription_submit', array(
-            'ignore'   => true,
-            'label'    => 'Valider',)
-		);
+        $this->addElement('button', 'Inscription', array(
+            'type'          => 'submit',
+            'buttonType'    => 'success',
+        ));
     }
 }

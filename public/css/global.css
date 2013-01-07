@@ -51,15 +51,13 @@ body {
 #inscription {
 	z-index: 2;
 	position: absolute;
-	text-align: left;
-	background: white;
-	color: black;
-	width: 200px;
-	margin-top: 10px;
-	padding: 10px;
 	margin-left: 670px;
 	display: none;
 	overflow: hidden;
+}
+
+#inscription .controls {
+	margin-left: 0;
 }
 
 #contenu .erreur {
