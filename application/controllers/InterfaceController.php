@@ -185,17 +185,21 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->_session->set('root', $root);
 		
 		//création du tableau contenant les dossiers et les fichiers de l'utilisateur
-		$this->_contenu .= "	<table class='tableau'>
-									<tr>
-										<th class='nom'>Nom</th>
-										<th class='taille'>Taille</th>
-										<th class='type'>Type</th>
-										<th class='date'>Date d'upload</th>
-										<th class='actions'>Actions</th>
-									</tr>";
+		$this->_contenu .= "	<table class='table table-striped table-hover'>
+									<thead>
+										<tr>
+											<th class='nom'>Nom</th>
+											<th class='taille'>Taille</th>
+											<th class='type'>Type</th>
+											<th class='date'>Date d'upload</th>
+											<th class='actions'>Actions</th>
+										</tr>
+									</thead>
+									<tbody>";
 		$this->_getFiles($root);
 		
-		$this->_contenu .= "	</table>";
+		$this->_contenu .= "		</tbody>
+								</table>";
 		
 		//envois du tableau à la vue
 		$this->view->contenu = $this->_contenu;
