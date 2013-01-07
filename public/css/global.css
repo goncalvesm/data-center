@@ -1,68 +1,51 @@
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
-/* HTML5 display-role reset for older browsers */
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
-	display: block;
-}
 body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after, q:before, q:after {
-	content: '';
-	content: none;
-}
-table {
-	border-collapse: collapse;
-	border-spacing: 0;
+	background: url('/images/background.jpg');
 }
 
-/*********************************************************************************/
-
-body {
-	margin: 0;
-	background: #DFDFDF;
+.navbar-inverse .navbar-inner{
+ 	background-color: #0070d1;
+ 	
+	background-image: -moz-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -ms-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0070d1), to(#00a9d1));
+	background-image: -webkit-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -o-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: linear-gradient(top, #0070d1, #00a9d1);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0070d1', endColorstr='#00a9d1', GradientType=0);
 }
 
-body a {
-	text-decoration: none;
-	color: black;
+.navbar-inverse .brand,
+.navbar-inverse .nav > li > a {
+  color: #111111;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.25);
 }
 
-#conteneur {
-	z-index: 0;
-	margin: 0 auto;
-	margin-top: 0;
-	width: 900px;
+.navbar-inverse .brand:hover,
+.navbar-inverse .nav > li > a:hover {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
 }
 
-#connexion {
-	z-index: 1;
-	width: 880px; /*900px*/
-	height: 25px; /*45px*/
+#footer {
+	background-color: #0070d1;
+ 	
+	background-image: -moz-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -ms-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0070d1), to(#00a9d1));
+	background-image: -webkit-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -o-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: linear-gradient(top, #0070d1, #00a9d1);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0070d1', endColorstr='#00a9d1', GradientType=0);
+	
+	border: thin solid black;
+	border-radius: 4px;
 	padding: 10px;
-	text-align: right;
-	background: black;
-	color: white;
-}
-
-#connexion input[type="text"]:focus, #connexion input[type="password"]:focus {
-	border-color: blue;
-}
-
-#connexion .zend_form dt, #connexion .zend_form dd{
-	display: inline;
+	text-align: center;
+	color: #333333;
 }
 
 #inscription {
@@ -79,52 +62,6 @@ body a {
 	overflow: hidden;
 }
 
-#inscription table tr td input, #inscription table tr td select{
-	margin-left: 10px;
-}
-
-#inscription input[name="inscription"] {
-	margin: 0;
-}
-
-#inscription .zend_form dt, #inscription .zend_form dd{
-	display: block;
-}
-
-#header {
-	z-index: 1;
-	width: 840px; /*900px*/
-	height: 100px; /*108px*/
-	padding: 30px;
-	background: grey;
-	color: white;
-	margin-bottom: 10px;
-}
-
-#header p{
-	font-size: 20px;
-	margin: 10px 0 10px 0;
-}
-
-#contenu {
-	z-index: 1;
-	width: 860px; /*690px*/
-	padding: 20px;
-	background: grey;
-	min-height: 300px;
-}
-
-#footer {
-	z-index: 1;
-	width: 880px; /*900px*/
-	height: 20px; /*40px*/
-	padding: 10px;
-	margin-top: 10px;
-	color: white;
-	text-align: center;
-	background: black;
-}
-
 #contenu .erreur {
 	color: white;
 	font-weight: bold;
@@ -133,4 +70,17 @@ body a {
 	padding: 10px;
 	margin-top: 10px;
 	margin-bottom: 10px;	
+}
+
+#connexion {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	margin-top: 4px;
+	text-align: right;
+}
+
+#connexion button {
+	margin: 0;
 }

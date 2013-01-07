@@ -1,32 +1,43 @@
 <?php
 
-class Application_Form_Connexion extends Zend_Form
+class Application_Form_Connexion extends Twitter_Bootstrap_Form_Inline
 {
     public function init()
     {
+		$this->setIsArray(true);
+        $this->setElementsBelongTo('bootstrap');
 
+        $this->_addClassNames('well');
+		
         $this->setMethod('post');
 		$this->setAttrib('action', '/index/login');
+		$this->setAttrib('id', 'connexion');
 
-        $this->addElement(	'text', 'connexion_login', array(
-            				'label'      => 'Identifiant :',
-            				'required'   => false,
+        $this->addElement(	'text', 'login', array(
+            				'placeholder'  	=> 'Identifiant',
+            				'name'			=> 'connexion_login',
+            				'dimension'		=> 2,
 		));
 
-        $this->addElement('password', 'connexion_password', array(
-            'label'      => 'Mot de passe :',
-            'required'   => false)
-		);
- 
-        // Un bouton d'envoi
-        $this->addElement('submit', 'connexion_submit', array(
-            'ignore'   => true,
-            'label'    => 'Connexion',)
-		);
+        $this->addElement('password', 'password', array(
+            'placeholder'  	=> 'Mot de passe',
+            'name'			=> 'connexion_password',
+			'dimension'		=> 2,
+		));
 		
-		$inscription = new Zend_Form_Element_Button('Inscription');
-		$inscription	->setAttrib('onCLick', "$('#inscription').slideToggle(500);")
-						->setAttrib('id', 'connexion_inscription');
-		$this->addElement($inscription);
+		$this->addElement('button', 'submit', array(
+            'label'         => 'Connexion',
+            'type'          => 'submit',
+            'buttonType'    => 'primary',
+            'escape'        => false,
+        ));
+		
+		$this->addElement('button', 'inscription', array(
+            'label'         => 'Inscription',
+            'type'          => 'button',
+            'buttonType'    => 'success',
+            'escape'        => false,
+            'onClick'		=> "$('#inscription').slideToggle(500);"
+        ));
     }
 }

@@ -47,6 +47,7 @@ class IndexController extends Zend_Controller_Action {
             if ($login->isValid($request->getPost())) {
                 $id = $_POST['connexion_login'];
 				$password = $_POST['connexion_password'];
+				var_dump($id, $password); die();
 				$password = $this->_hash->hashPassword($password);
 				
 				$resultat = $this->_auth->login($id, $password);

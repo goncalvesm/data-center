@@ -2,13 +2,13 @@
 
 <?php
 	if($this->message != ""){
-		echo "<div class='message'>".$this->message."</div>";
+		echo "<div class='message'>".$this->message."</div><br/>";
 	} elseif($this->erreur != ""){
-		echo "<div class='erreur'>".$this->erreur."</div>";
+		echo "<div class='erreur'>".$this->erreur."</div><br/>";
 	}
 ?>
 <div>
-	<?php echo $this->espaceRestant." Mo d'espace disponible"; ?>
+	<b><?php echo $this->espaceRestant." Mo d'espace disponible"; ?></b>
 </div>
 <br>
 <?php
@@ -16,15 +16,19 @@
 		echo "<div id='changementOption'>".$this->changementOption."</div>";
 	}
 ?>
+<div id="changerOptionManuel">
+	<?php echo $this->changementOption; ?>
+</div>
 <div id='upload'>
 	<?php echo $this->upload; ?>
 </div>
 <div id='newFolder'>
 	<?php echo $this->createFolder; ?>
 </div>
-<input type="button" value="Upload" onClick="$('#upload').slideToggle(500, function(){if($('#newFolder').css('display')=='block'){$('#newFolder').slideUp(500);}});"/>
-<input type="button" value="Créer un dossier" onClick="$('#newFolder').slideToggle(500, function(){if($('#upload').css('display')=='block'){$('#upload').slideUp(500);}});"/>
-</br></br>
-<a href="/interface/index/">Home</a>
-</br></br>
+<input class="btn btn-primary" type="button" value="Upload" onClick="$('#upload').slideToggle(500, function(){if($('#newFolder').css('display')=='block'){$('#newFolder').slideUp(500);}else if($('#changerOptionManuel').css('display')=='block'){$('#changerOptionManuel').slideUp(500);}});"/>
+<input class="btn btn-primary" type="button" value="Créer un dossier" onClick="$('#newFolder').slideToggle(500, function(){if($('#upload').css('display')=='block'){$('#upload').slideUp(500);}else if($('#changerOptionManuel').css('display')=='block'){$('#changerOptionManuel').slideUp(500);}});"/>
+<input class="btn btn-success" type="button" value="Augmenter mon espace de stockage" onClick="$('#changerOptionManuel').slideToggle(500, function(){if($('#upload').css('display')=='block'){$('#upload').slideUp(500);}else if($('#newFolder').css('display')=='block'){$('#newFolder').slideUp(500);}});"/>
+<ul class="breadcrumb">
+  <li><a href="/">Home</a> <span class="divider">/</span></li>
+</ul>
 <?php echo $this->contenu; ?>

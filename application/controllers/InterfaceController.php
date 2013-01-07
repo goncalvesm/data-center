@@ -73,9 +73,9 @@ class InterfaceController extends Zend_Controller_Action {
 			//Traitement individuel des données récupérées afin d'envoyer un affichage à la vue
 			foreach ($dossiers as $value) {
 				$this->_contenu .= "<tr>
-								 		<td colspan='3'><img src='/images/dossier.png'/><a href='/interface/index?parent=".$value['id']."'>".$value['nom']."</a></td>
+								 		<td colspan='3'><img src='/images/dossier.png' title='Dossier'><a href='/interface/index?parent=".$value['id']."'>".$value['nom']."</a></td>
 										<td>".$value['dateCreation']."</td>
-										<td><a href='/interface/supprimer-dossier?id=".$value['id']."'><img src='/images/supp_dossier.png' /></a></td>
+										<td><a href='/interface/supprimer-dossier?id=".$value['id']."'><img src='/images/supp_dossier.png' title='Supprimer le dossier'></a></td>
 									</tr>";
 			}
 	
@@ -84,11 +84,11 @@ class InterfaceController extends Zend_Controller_Action {
 				$dossierParent = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$subvalue['dossierParent']."'");
 				
 				$this->_contenu .= "<tr>
-										<td><img src='/images/doc.png'/><a href='/interface/download?path=".APPLICATION_PATH."/../data/".$dossierParent[0]['chemin'].$subvalue['nom']."'>".$subvalue['nom']."</a></td>
+										<td><img src='/images/doc.png' title='Fichier'><a href='/interface/download?path=".APPLICATION_PATH."/../data/".$dossierParent[0]['chemin'].$subvalue['nom']."'>".$subvalue['nom']."</a></td>
 										<td>".round(($subvalue['taille'] / 1024)/1024, 2)." Mo</td>
 										<td>".$subvalue['type']."</td>
 										<td>".$subvalue['dateCreation']."</td>
-										<td><a href='/interface/supprimer-fichier?id=".$subvalue['id']."'><img src='/images/supp_fichier.png' /></a></td>
+										<td><a href='/interface/supprimer-fichier?id=".$subvalue['id']."'><img src='/images/supp_fichier.png' title='Supprimer le fichier'></a></td>
 									</tr>";
 			}
 		} else {

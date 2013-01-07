@@ -1,9 +1,59 @@
-#upload, #newFolder, #changementOption {
+body {
+	background: url('/images/background.jpg');
+}
+
+.navbar-inverse .navbar-inner{
+ 	background-color: #0070d1;
+ 	
+	background-image: -moz-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -ms-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0070d1), to(#00a9d1));
+	background-image: -webkit-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -o-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: linear-gradient(top, #0070d1, #00a9d1);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0070d1', endColorstr='#00a9d1', GradientType=0);
+}
+
+.navbar-inverse .brand,
+.navbar-inverse .nav > li > a {
+  color: #111111;
+  text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.navbar-inverse .brand:hover,
+.navbar-inverse .nav > li > a:hover {
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+
+.breadcrumb {
+	margin: 10px 0 10px 0;
+}
+
+#footer {
+	background-color: #0070d1;
+ 	
+	background-image: -moz-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -ms-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#0070d1), to(#00a9d1));
+	background-image: -webkit-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: -o-linear-gradient(top, #0070d1, #00a9d1);
+	background-image: linear-gradient(top, #0070d1, #00a9d1);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0070d1', endColorstr='#00a9d1', GradientType=0);
+	
+	border: thin solid black;
+	border-radius: 4px;
+	padding: 10px;
+	text-align: center;
+	color: #333333;
+}
+
+#upload, #newFolder, #changementOption, #changerOptionManuel {
 	display: none;
-	padding: 20px;
-	background: white;
-	border-radius: 10px;
-	margin-bottom: 20px;
 }
 
 #changementOption {
@@ -11,61 +61,47 @@
 }
 
 #contenu .message {
-	background: green;
-	border: 2px solid black;
-	padding: 5px;
+	background-color: #08d600;
+ 	
+	background-image: -moz-linear-gradient(top, #08d600, #00d632);
+	background-image: -ms-linear-gradient(top, #08d600, #00d632);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08d600), to(#00d632));
+	background-image: -webkit-linear-gradient(top, #08d600, #00d632);
+	background-image: -o-linear-gradient(top, #08d600, #00d632);
+	background-image: linear-gradient(top, #08d600, #00d632);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#08d600', endColorstr='#00d632', GradientType=0);
+	
 	color: white;
-	margin-bottom: 20px;
+	font-weight: bold;
+	padding: 5px;
+	border: thin solid black;
+	border-radius: 4px;
 }
 
 #contenu .erreur {
-	background: red;
-	border: 2px solid black;
-	padding: 5px;
+	background-color: #b70100;
+ 	
+	background-image: -moz-linear-gradient(top, #b70100, #b71a00);
+	background-image: -ms-linear-gradient(top, #b70100, #b71a00);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b70100), to(#b71a00));
+	background-image: -webkit-linear-gradient(top, #b70100, #b71a00);
+	background-image: -o-linear-gradient(top, #b70100, #b71a00);
+	background-image: linear-gradient(top, #b70100, #b71a00);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b70100', endColorstr='#b71a00', GradientType=0);
+	
 	color: white;
-	margin-bottom: 20px;
-}
-
-#contenu .tableau {
-	background: white;
-	border: 2px solid black;
-	border-collapse: collapse;
-	width: 100%;
-}
-
-#contenu .tableau td, #contenu .tableau th {
-	border: thin solid black;
+	font-weight: bold;
 	padding: 5px;
-	vertical-align: middle;
+	border: thin solid black;
+	border-radius: 4px;
 }
 
-#contenu .tableau img {
+table img {
 	display: inline;
 	vertical-align: middle;
 	margin-right: 10px;
-}
-
-#contenu .tableau .nom {
-	width: 55%;
-}
-
-#contenu .tableau .taille {
-	width: 15%;
-}
-
-#contenu .tableau .type {
-	width: 10%;	
-}
-
-#contenu .tableau .date {
-	width: 10%;
-}
-
-#contenu .tableau .actions {
-	width: 10%;
-}
-
-.centrer {
-	vertical-align: middle;
-	display: inline;
 }

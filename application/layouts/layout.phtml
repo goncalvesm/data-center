@@ -4,16 +4,23 @@
 		<title>Data center</title>
 		<meta charset="utf-8">
 		<meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-		<?php echo $this->headLink()->appendStylesheet('/css/global.css'); ?>
+		<?php echo $this->headLink()->appendStylesheet('/css/bootstrap.min.css')?>
+		<?php echo $this->headLink()->appendStylesheet('/css/global.css')?>
 		<script charset="utf-8" src="/js/jquery.js"></script>
 		<script type="text/javascript" src="/js/setFormula.js"></script>
 	</head>
 	<body>
-		<div id="conteneur">
-			<div id="connexion">
-				<?php echo $this->layout()->login; ?>
+		<div class="container">
+			<div class="navbar navbar-inverse">
+				<div class="navbar-inner">
+					<a class="brand" href="/">Datacenter</a>
+					<?php echo $this->layout()->login; ?>
+				</div>
 			</div>
-			<div id="header">
+		</div>
+		
+		<div class="container">
+			<div id="">
 				<p>Profitez de nos différentes offres pour stocker vos données !</p>
 				<ul>
 					<li><a href="#" onClick="setFormula('1')">1 Mo d'espace disque !</a></li>
@@ -24,7 +31,7 @@
 			<div id="contenu">
 				<?php echo $this -> layout() -> content; ?>
 			</div>
-			<div style="clear:both"></div>
+			
 			<div id="footer">
 				<p>
 					copyright GONCALVES Mickael

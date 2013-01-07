@@ -1,45 +1,28 @@
 <?php
 
-class Application_Form_CreateFolder extends Zend_Form
+class Application_Form_CreateFolder extends Twitter_Bootstrap_Form_Inline
 {
     public function init()
     {
-		
-		//Modification du décorateur
-		$this->setDecorators(
-		    array(
-		        'FormElements',
-		        array('HtmlTag', array('tag' => 'table')),
-		        'Form'
-		    )
-		);
-		
-		$decorateur = array(
-		    'ViewHelper',
-		    'Errors',
-		    array('Description', array('tag' => 'p', 'class' => 'description')),
-		    array('HtmlTag', array('tag' => 'td')),
-		    array('Label', array('tag' => 'th')),
-		    array(array('tr' => 'HtmlTag'), array('tag' => 'tr'))
-		);
+		$this->setIsArray(true);
+        $this->setElementsBelongTo('bootstrap');
+
+        $this->_addClassNames('well');	
 		
        	$this->setMethod('post');
 		$this->setAttrib('action', '/interface/creer-dossier');
 		
 		$this->addElement(	'text', 'nom_dossier', array(
-            				'label'      => 'Nom du dossier :',
-            				'decorators' => $decorateur,
+            				'label'      => 'Nom du dossier :'
 		));
 		
-		$this->addElement('submit', 'submit', array(
-            'ignore'   => true,
-            'label'    => 'Créer',
-            'name'	   => 'validerCreation',
-            'decorators' => array(
-	            'ViewHelper',
-	            array(array('td' => 'HtmlTag'), array('tag' => 'td', 'colspan' => 2)),
-	            array(array('tr' => 'HtmlTag'), array('tag' => 'tr'))
-	        ),
+		$this->addElement('button', 'submit', array(
+            'label'         => 'Créer le dossier',
+            'type'          => 'submit',
+            'buttonType'    => 'success',
+            'icon'          => 'ok',
+            'escape'        => false,
+            'name'			=> 'validerCreation'
         ));
     }
 }
