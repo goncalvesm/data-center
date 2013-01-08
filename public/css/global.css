@@ -54,6 +54,7 @@ body {
 	margin-left: 670px;
 	display: none;
 	overflow: hidden;
+	width: 257px;
 }
 
 #inscription .controls {
@@ -61,13 +62,23 @@ body {
 }
 
 #contenu .erreur {
+	background-color: #b70100;
+ 	
+	background-image: -moz-linear-gradient(top, #b70100, #b71a00);
+	background-image: -ms-linear-gradient(top, #b70100, #b71a00);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#b70100), to(#b71a00));
+	background-image: -webkit-linear-gradient(top, #b70100, #b71a00);
+	background-image: -o-linear-gradient(top, #b70100, #b71a00);
+	background-image: linear-gradient(top, #b70100, #b71a00);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b70100', endColorstr='#b71a00', GradientType=0);
+	
 	color: white;
 	font-weight: bold;
-	font-size: 16px;
-	background: #B22222;
-	padding: 10px;
-	margin-top: 10px;
-	margin-bottom: 10px;	
+	padding: 5px;
+	border: thin solid black;
+	border-radius: 4px;
 }
 
 #connexion {
@@ -81,4 +92,8 @@ body {
 
 #connexion button {
 	margin: 0;
+}
+
+#contenu .row {
+	margin-bottom: 20px;
 }

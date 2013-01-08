@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Inscription extends Twitter_Bootstrap_Form_Horizontal
+class Application_Form_Inscription extends Twitter_Bootstrap_Form_Vertical
 {
     public function init()
     {
