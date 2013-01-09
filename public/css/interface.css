@@ -105,3 +105,10 @@ table img {
 	vertical-align: middle;
 	margin-right: 10px;
 }
+
+#contenu .add-on {
+	border: none;
+	background: none;
+	margin: 0;
+	padding: 0;
+}

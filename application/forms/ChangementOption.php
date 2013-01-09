@@ -9,17 +9,16 @@ class Application_Form_ChangementOption extends Twitter_Bootstrap_Form_Inline
 
         $this->_addClassNames('well');
 		
-       	$this->setMethod('post');
-		$this->setAttrib('action', '/interface/changer-option');
+		$this->addElement( 	'checkbox', 'dixMo', array(
+							'prepend' => '10 Mo',
+							'id'	 => 'dixMo',
+							'onClick' => '$(\'#centMo\').attr("checked", false);',
+		));
 		
-		$this->addElement(	'select', 'formule', array(
-            				'label'      => 'Option :',
-            				'multiOptions' => array(
-            					'1' => '1 Mo', 
-            					'10' => '10 Mo',
-            					'100' => '100 Mo',
-							)
-            				
+		$this->addElement( 	'checkbox', 'centMo', array(
+							'prepend' => '100 Mo',
+							'id'	 => 'centMo',
+							'onClick' => '$(\'#dixMo\').attr("checked", false);',
 		));
 		
 		$this->addElement('button', 'submit', array(
@@ -28,7 +27,6 @@ class Application_Form_ChangementOption extends Twitter_Bootstrap_Form_Inline
             'buttonType'    => 'success',
             'icon'          => 'ok',
             'escape'        => false,
-            'name'			=> 'validerChangement'
         ));
     }
 }

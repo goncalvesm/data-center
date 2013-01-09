@@ -13,11 +13,30 @@
 <br>
 <?php
 	if($this->changerOption){
-		echo "<div id='changementOption'>".$this->changementOption."</div>";
+		echo "	<div id='changementOption'>
+					<form method='post' action='/interface/changer-formule/' class='form-inLine well'>";
+						if($this->user['formule'] == 100){
+							echo "<b>Vous disposez déja de l'espace de stockage maximal ! Merci</b>";
+						} elseif($this->user['formule'] == 10) {
+							echo $this->changementOption->centMo."<br/>".$this->changementOption->submit;
+						} elseif ($this->user['formule'] == 1) {
+							echo $this->changementOption->centMo."<br/>".$this->changementOption->dixMo."<br/>".$this->changementOption->submit;
+						}
+		echo "		</form>
+				</div>";
 	}
 ?>
 <div id="changerOptionManuel">
-	<?php echo $this->changementOption; ?>
+	<?php echo "<form method='post' action='/interface/changer-formule/' class='form-inLine well'>";
+					if($this->user['formule'] == 100){
+						echo "<b>Vous disposez déja de l'espace de stockage maximal ! Merci</b>";
+					} elseif($this->user['formule'] == 10) {
+						echo $this->changementOption->centMo."<br/>".$this->changementOption->submit;
+					} elseif ($this->user['formule'] == 1) {
+						echo $this->changementOption->centMo."<br/>".$this->changementOption->dixMo."<br/>".$this->changementOption->submit;
+					}
+		  echo "</form>"; 
+	?>
 </div>
 <div id='upload'>
 	<?php echo $this->upload; ?>

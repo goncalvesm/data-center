@@ -69,13 +69,14 @@ class IndexController extends Zend_Controller_Action {
 		
 		if ($this->getRequest()->isPost()) {
             if ($inscription->isValid($request->getPost())) {
-                $nom = $_POST['inscription_nom'];
-				$prenom = $_POST['inscription_prenom'];
-				$pseudo = $_POST['inscription_pseudo'];
-				$mail = $_POST['inscription_email'];
-				$password = $_POST['inscription_password'];
-				$confirmPassword = $_POST['inscription_confirmPassword'];
-				$formule = $_POST['inscription_formule'];
+            	$params = $this->getRequest()->getParams();
+                $nom = $params['bootstrap']['nom'];
+				$prenom = $params['bootstrap']['prenom'];
+				$pseudo = $params['bootstrap']['pseudo'];
+				$mail = $params['bootstrap']['email'];
+				$password = $params['bootstrap']['password'];
+				$confirmPassword = $params['bootstrap']['confirmPassword'];
+				$formule = $params['bootstrap']['formule'];
 				$dateCreation = time();
 				
 				if($pseudo != '' && $nom != '' && $prenom != '' && $password != '' && $confirmPassword != ''){
@@ -116,20 +117,12 @@ class IndexController extends Zend_Controller_Action {
 					$this->_helper->redirector('index', 'index');
 				}
             } else {
-            	$nom = $_POST['inscription_nom'];
-				$prenom = $_POST['inscription_prenom'];
-				$pseudo = $_POST['inscription_pseudo'];
-				$mail = $_POST['inscription_email'];
-				$password = $_POST['inscription_password'];
-				$confirmPassword = $_POST['inscription_confirmPassword'];
-				$formule = $_POST['inscription_formule'];
-				
             	$this->_session->set('message', "Erreur lors du renseignement de l'un des champs, merci de réessayer");
 				$this->_helper->redirector('index', 'index');
             }
         } else {
         	$this->_session->set('message', "Les données doivent etre envoyées en POST et non en GET");
-				$this->_helper->redirector('index', 'index');
+			$this->_helper->redirector('index', 'index');
         }
 		
 		$this->_helper->viewRenderer->setNoRender(true);

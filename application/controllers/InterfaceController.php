@@ -128,6 +128,8 @@ class InterfaceController extends Zend_Controller_Action {
 		
 		$user = $this->_session->get('utilisateur');
 		$this->view->pseudo = $user['pseudo'];
+		$this->view->user = $user;
+		
 		if($user['droit'] == "admin"){
 			$this->_helper->redirector('index', 'admin');
 		}
@@ -183,6 +185,7 @@ class InterfaceController extends Zend_Controller_Action {
 		}
 		
 		$this->_session->set('root', $root);
+		
 		
 		//création du tableau contenant les dossiers et les fichiers de l'utilisateur
 		$this->_contenu .= "	<table class='table table-striped table-hover'>
@@ -284,11 +287,12 @@ class InterfaceController extends Zend_Controller_Action {
 	
 	public function creerDossierAction() {
 		$idDossierCourant = $this->_session->get('root');
+		$params = $this->getRequest()->getParams();
 		
-		if(isset($_POST['validerCreation'])){
+		if(isset($params['bootstrap']['validerCreation'])){
 			$user = $this->_session->get('utilisateur');
 			
-			$nomDossier = $_POST['nom_dossier'];
+			$nomDossier = $params['bootstrap']['nom_dossier'];
 			
 			$dossierCourant = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id=".$idDossierCourant);
 			
@@ -362,6 +366,28 @@ class InterfaceController extends Zend_Controller_Action {
 			} else {
 				$this->_session->set("erreur", "Le fichier demandé n'existe pas ou n'est pas référencé");
 			}
+		}
+		
+		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
+	}
+	
+	public function changerFormuleAction() {
+		$idDossierCourant = $this->_session->get('root');
+		$params = $this->getRequest()->getParams();
+		$user = $this->_session->get('utilisateur');
+		
+		if($params['bootstrap']['dixMo'] == 1) {
+			$this->_sqlite->execute("UPDATE utilisateurs SET 'formule'='10' WHERE pseudo='".$user['pseudo']."'");
+			$user['formule'] = 10;
+			$this->_session->set('utilisateur', $user);
+			
+			$this->_session->set("message", "Votre compte possède désormais 10 Mo d'espace de stockage !");
+		} elseif($params['bootstrap']['centMo'] == 1) {
+			$this->_sqlite->execute("UPDATE utilisateurs SET 'formule'='100' WHERE pseudo='".$user['pseudo']."'");
+			$user['formule'] = 100;
+			$this->_session->set('utilisateur', $user);
+			
+			$this->_session->set("message", "Votre compte possède désormais 100 Mo d'espace de stockage !");
 		}
 		
 		$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);

@@ -1,6 +1,6 @@
 <?php
 
-class Application_Form_Inscription extends Twitter_Bootstrap_Form_Vertical
+class Application_Form_Inscription extends Twitter_Bootstrap_Form_Inline
 {
     public function init()
     {
@@ -12,30 +12,30 @@ class Application_Form_Inscription extends Twitter_Bootstrap_Form_Vertical
         $this->setMethod('post');
 		$this->setAttrib('action', '/index/inscription');
  
-        $this->addElement(	'text', 'inscription_nom', array(
+        $this->addElement(	'text', 'nom', array(
             				'placeholder'      => '* Nom',
 		));
 		
-		$this->addElement(	'text', 'inscription_prenom', array(
+		$this->addElement(	'text', 'prenom', array(
             				'placeholder'      => '* Prenom',
 		));
 		
-		$this->addElement(	'text', 'inscription_pseudo', array(
+		$this->addElement(	'text', 'pseudo', array(
             				'placeholder'      => '* Pseudonyme',
 		));
 		
-		$this->addElement('text', 'inscription_email', array(
+		$this->addElement('text', 'email', array(
             'placeholder'      => 'Adresse mail',
             'validators' => array(
                 'EmailAddress',
             )
         ));
 
-        $this->addElement('password', 'inscription_password', array(
+        $this->addElement('password', 'password', array(
             'placeholder'      => '* Mot de passe',
 		));
 		
-		$this->addElement('password', 'inscription_confirmPassword', array(
+		$this->addElement('password', 'confirmPassword', array(
             'placeholder'      => '* Confirmer le mot de passe',
 		));
 		
@@ -67,6 +67,7 @@ class Application_Form_Inscription extends Twitter_Bootstrap_Form_Vertical
         $this->addElement('button', 'Inscription', array(
             'type'          => 'submit',
             'buttonType'    => 'success',
+            'name'			=> 'inscription',
         ));
     }
 }

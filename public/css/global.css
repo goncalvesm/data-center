@@ -48,10 +48,15 @@ body {
 	color: #333333;
 }
 
+#footer p, #contenu p {
+	margin: 0;
+}
+
 #inscription {
 	z-index: 2;
 	position: absolute;
-	margin-left: 670px;
+	margin-left: 663px;
+	margin-top: 9px;
 	display: none;
 	overflow: hidden;
 	width: 257px;
@@ -59,6 +64,11 @@ body {
 
 #inscription .controls {
 	margin-left: 0;
+}
+
+#inscription input, #inscription select {
+	display: block;
+	margin-bottom: 5px;
 }
 
 #contenu .erreur {
@@ -96,4 +106,8 @@ body {
 
 #contenu .row {
 	margin-bottom: 20px;
+}
+
+.hero-unit {
+	background: #D4E3FF;
 }
