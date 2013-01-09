@@ -24,15 +24,18 @@ class AdminController extends Zend_Controller_Action {
 		$utilisateurs = $this->_sqlite->execute("SELECT * FROM utilisateurs");
 			
 		$contenu = "";
-		$contenu .= "	<table class='tableau'>
-							<tr>
-								<th class='nom'>Nom</th>
-								<th class='prenom'>Prenom</th>
-								<th class='pseudo'>Pseudo</th>
-								<th class='droit'>Droit</th>
-								<th class='espaceDispo'>Espace disponnible</th>
-								<th class='actions'>Actions</th>
-							</tr>";
+		$contenu .= "	<table class='table table-striped table-hover'>
+							<thead>
+								<tr>
+									<th class='nom'>Nom</th>
+									<th class='prenom'>Prenom</th>
+									<th class='pseudo'>Pseudo</th>
+									<th class='droit'>Droit</th>
+									<th class='espaceDispo'>Espace disponnible</th>
+									<th class='actions'>Actions</th>
+								</tr>
+							</thead>
+							<tbody>";
 							
 		foreach ($utilisateurs as $value) {
 			//Calcule de l'espace de stockage restant
@@ -40,6 +43,8 @@ class AdminController extends Zend_Controller_Action {
 			$espaceOccupe = $this->_sqlite->execute("SELECT SUM(taille) AS total FROM fichiers WHERE utilisateur='".$value['pseudo']."'");
 			$espaceOccupe = round((($espaceOccupe[0]['total']) / 1024)/1024, 2);
 			$espaceRestant = $formule-$espaceOccupe;
+			$poucentage = (int)($espaceOccupe*100)/$formule;
+			$pourcentage = (string)$poucentage."%";
 			
 			$contenu .= "	<tr>
 								<td>".$value['nom']."</td>
@@ -48,8 +53,9 @@ class AdminController extends Zend_Controller_Action {
 								<td>".$value['droit']."</td>
 								<td class='centrer'>";
 								if($value['droit'] == "utilisateur"){
-									$contenu .= $espaceOccupe." Mo occupé sur".$formule." Mo<br/>
-									<progress value=\"".$espaceOccupe."\" max=\"".$formule."\"></progress><br/>
+									$contenu .= "<div class=\"progress progress-striped active\">
+									  	<div class=\"bar\" style=\"width: ".$pourcentage.";\"></div>
+									</div>
 									".$espaceRestant." Mo Restant";
 								} else {
 									$contenu .= "desactivé";
@@ -62,7 +68,8 @@ class AdminController extends Zend_Controller_Action {
 							</tr>";	
 		}
 
-		$contenu .= "</table>";
+		$contenu .= "	</tbody>
+					</table>";
 		
 		$this->view->contenu = $contenu;
 	}
