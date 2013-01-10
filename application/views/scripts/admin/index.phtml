@@ -1,3 +1,11 @@
+<?php
+	if($this->message != ""){
+		echo "<div class='message'>".$this->message."</div><br/>";
+	} elseif($this->erreur != ""){
+		echo "<div class='erreur'>".$this->erreur."</div><br/>";
+	}
+?>
+
 <p class="center"><b>Interface d'administration des utilisateurs</b></p><br/>
 
 <?php echo $this->contenu; ?>

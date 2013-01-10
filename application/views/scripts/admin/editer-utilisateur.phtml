@@ -1,0 +1,16 @@
+<?php $formule = $this->formule;
+$user = $this->user;
+
+echo "	<form method='post' action='/admin/changer-formule/' class='form-inLine well'>
+			<input type='hidden' value='".$user."' name='pseudo'/>";
+			if($formule == 100){
+				echo "<b>Vous disposez déja de l'espace de stockage maximal ! Merci</b><br/><br/>";
+			} elseif($formule == 10) {
+				echo $this->changementOption->centMo."<br/>".$this->changementOption->submit;
+			} elseif ($formule == 1) {
+				echo $this->changementOption->centMo."<br/>".$this->changementOption->dixMo."<br/>".$this->changementOption->submit;
+			}
+		
+echo "		<a href=\"/admin/index\" class=\"btn btn-danger\">Retour</a>
+		</form>";
+?>

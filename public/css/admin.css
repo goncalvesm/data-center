@@ -102,3 +102,10 @@ table img {
 .center {
 	text-align: center;
 }
+
+#contenu .add-on {
+	border: none;
+	background: none;
+	margin: 0;
+	padding: 0;
+}

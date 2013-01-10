@@ -1,3 +1,12 @@
-breadcrumb
 envois mail changement formule
-suppression/edition des utilisateurs
+verif les entrées des input (is_alphanum)
+
+liste user paginée
+nb fichiers dans un dossier
+confirmation suppression dossier/fichier
+confirmation suppression user
+breadcrumb
+déplacer zend_perso
+modifier htaccess
+tester l'envois d'email sur le serv
+
