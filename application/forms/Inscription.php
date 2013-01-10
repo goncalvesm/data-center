@@ -56,11 +56,11 @@ class Application_Form_Inscription extends Twitter_Bootstrap_Form_Inline
 			'captcha' => array(
 		        "captcha" => "Image",
 		        "wordLen" => 6,
-		        "font" => APPLICATION_PATH."/../public/fonts/DejaVuSans.ttf",
+		        "font" => APPLICATION_PATH."/../public_html/fonts/DejaVuSans.ttf",
 				"height" => 100,
 				"width" => 190,
 				"fontSize" => 22,
-				"imgDir" => APPLICATION_PATH."/../public/captcha/",
+				"imgDir" => APPLICATION_PATH."/../public_html/captcha/",
 				"imgUrl" => "/captcha/",
 		)));
  

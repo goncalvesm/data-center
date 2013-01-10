@@ -1,4 +1,3 @@
-envois mail changement formule
 verif les entrées des input (is_alphanum)
 
 liste user paginée
