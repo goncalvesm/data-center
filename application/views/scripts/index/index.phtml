@@ -1,6 +1,9 @@
 <?php
 	if($this->message != null){
-		echo "	<div class='erreur'>".$this->message."</div><br/>";
+		echo "	<div class='message'>".$this->message."</div><br/>";
+	}
+	if($this->erreur != null){
+		echo "	<div class='erreur'>".$this->erreur."</div><br/>";
 	}
 ?>
 

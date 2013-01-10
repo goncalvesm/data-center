@@ -106,6 +106,11 @@ table img {
 	margin-right: 10px;
 }
 
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+  background-color: #C2ECFF;
+}
+
 #contenu .add-on {
 	border: none;
 	background: none;

@@ -26,6 +26,10 @@ class IndexController extends Zend_Controller_Action {
 			$this->view->message = $this->_session->get('message');
 			$this->_session->set('message', null);
 		}
+		if($this->_session->get('erreur') != null){
+			$this->view->erreur = $this->_session->get('erreur');
+			$this->_session->set('erreur', null);
+		}
 		
 		$this->_helper->actionStack('login', 'index', array());
 	}
@@ -55,7 +59,7 @@ class IndexController extends Zend_Controller_Action {
 				if($resultat['succes']){
 					$this->_helper->redirector('index', 'interface');
 				} else {
-					$this->_session->set('message', $resultat['message']);
+					$this->_session->set('erreur', $resultat['message']);
 					$this->_helper->redirector('index', 'index');
 				}
             }
@@ -101,27 +105,27 @@ class IndexController extends Zend_Controller_Action {
 								$this->_session->set('connecte', true);
 								$this->_helper->redirector('index', 'interface');
 							} else {
-								$this->_session->set('message', "Erreur lors de l'inscription en base de données de l'utilisateur");
+								$this->_session->set('erreur', "Erreur lors de l'inscription en base de données de l'utilisateur");
 								$this->_helper->redirector('index', 'index');
 							}
 						} else {
-							$this->_session->set('message', "Les mots de passe doivent etre identiques");
+							$this->_session->set('erreur', "Les mots de passe doivent etre identiques");
 							$this->_helper->redirector('index', 'index');
 						}
 					} else {
-						$this->_session->set('message', "Ce pseudonyme est déja atribué");
+						$this->_session->set('erreur', "Ce pseudonyme est déja atribué");
 						$this->_helper->redirector('index', 'index');
 					}
 				} else {
-					$this->_session->set('message', "Les champs marqué d'un asterix sont obligatoires");
+					$this->_session->set('erreur', "Les champs marqué d'un asterix sont obligatoires");
 					$this->_helper->redirector('index', 'index');
 				}
             } else {
-            	$this->_session->set('message', "Erreur lors du renseignement de l'un des champs, merci de réessayer");
+            	$this->_session->set('erreur', "Erreur lors du renseignement de l'un des champs, merci de réessayer");
 				$this->_helper->redirector('index', 'index');
             }
         } else {
-        	$this->_session->set('message', "Les données doivent etre envoyées en POST et non en GET");
+        	$this->_session->set('erreur', "Les données doivent etre envoyées en POST et non en GET");
 			$this->_helper->redirector('index', 'index');
         }
 		

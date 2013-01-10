@@ -14,8 +14,14 @@ class AdminController extends Zend_Controller_Action {
 		$this->_helper->layout->setLayout('admin');
 		
 		$user = $this->_session->get('utilisateur');
-		$this->view->pseudo = $user['pseudo'];
-		if($user['droit'] == "utilisateur"){
+		if(is_array($user)){
+			$this->view->pseudo = $user['pseudo'];
+			if($user['droit'] == "utilisateur"){
+				$this->_session->set('erreur', 'Vous n\'avez pas accés à cette fonctionnalité');
+				$this->_helper->redirector('interface', 'index');
+			}
+		} else {
+			$this->_session->set('erreur', 'Vous devez vous connecter pour utiliser les fonctionnalités');
 			$this->_helper->redirector('index', 'index');
 		}
 	}
@@ -54,11 +60,11 @@ class AdminController extends Zend_Controller_Action {
 								<td class='centrer'>";
 								if($value['droit'] == "utilisateur"){
 									$contenu .= "<div class=\"progress progress-striped active\">
-									  	<div class=\"bar\" style=\"width: ".$pourcentage.";\"></div>
+									  	<div class=\"bar bar-success\" style=\"width: ".$pourcentage.";\"></div>
 									</div>
 									".$espaceRestant." Mo Restant";
 								} else {
-									$contenu .= "desactivé";
+									$contenu .= "<b>desactivé</b>";
 								}
 			$contenu .=	"		</td>
 								<td>

@@ -127,23 +127,17 @@ class InterfaceController extends Zend_Controller_Action {
 		$this->_helper->layout->setLayout('interface');
 		
 		$user = $this->_session->get('utilisateur');
-		$this->view->pseudo = $user['pseudo'];
-		$this->view->user = $user;
-		
-		if($user['droit'] == "admin"){
-			$this->_helper->redirector('index', 'admin');
+		if(is_array($user)){
+			$this->view->pseudo = $user['pseudo'];
+			$this->view->user = $user;
+			
+			if($user['droit'] == "admin"){
+				$this->_helper->redirector('index', 'admin');
+			}
 		}
 	}
 
 	public function indexAction() {
-		//Envois du message stocké en session à la vue
-		$this->view->message = $this->_session->get("message");
-		$this->_session->set('message', '');
-		
-		//Envois de l'erreur stockée en session à la vue
-		$this->view->erreur = $this->_session->get("erreur");
-		$this->_session->set('erreur', '');
-		
 		$twitter = new Application_Form_Twitter();
 		$this->view->twitter = $twitter;
 		
@@ -182,10 +176,30 @@ class InterfaceController extends Zend_Controller_Action {
 			$root = $root[0]['id'];
 		} else {
 			$root = $_GET['parent'];
+			$folders = $this->_sqlite->execute("SELECT id FROM dossiers WHERE utilisateur='".$user['pseudo']."'");
+			
+			foreach ($folders as $key => $value) {
+				foreach ($value as $subValue) {
+					$foldersArray[] = $subValue;
+				}	
+			}
+
+			if(!in_array($root, $foldersArray)){
+				$root = $this->_sqlite->execute("SELECT * FROM dossiers WHERE utilisateur='".$user['pseudo']."' AND root='1'");
+				$root = $root[0]['id'];
+				$this->_session->set('erreur', 'Vous ne pouvez pas acceder à ce dossier');
+			}
 		}
 		
 		$this->_session->set('root', $root);
 		
+		//Envois du message stocké en session à la vue
+		$this->view->message = $this->_session->get("message");
+		$this->_session->set('message', '');
+		
+		//Envois de l'erreur stockée en session à la vue
+		$this->view->erreur = $this->_session->get("erreur");
+		$this->_session->set('erreur', '');
 		
 		//création du tableau contenant les dossiers et les fichiers de l'utilisateur
 		$this->_contenu .= "	<table class='table table-striped table-hover'>
@@ -298,10 +312,14 @@ class InterfaceController extends Zend_Controller_Action {
 			
 			$chemin = $dossierCourant[0]['chemin'].$nomDossier."/";
 			
-			
 			if(mkdir(APPLICATION_PATH."/../data/".$chemin)){
 				$requete = "INSERT INTO dossiers ('nom', 'chemin', 'utilisateur','root', 'dateCreation', 'dossierParent') VALUES ('".$nomDossier."', '".$chemin."', '".$user['pseudo']."','0', '".date("d/m/y")."', '".$dossierCourant[0]['id']."')";
-				$this->_sqlite->execute($requete);
+
+				if(is_array($this->_sqlite->execute($requete))){
+					$this->_session->set("message", "Dossier créé avec succés");
+				} else {
+					$this->_session->set("erreur", "Erreur serveur lors de la création du dossier");
+				}
 			} else {
 				$this->_session->set("erreur", "Erreur serveur lors de la création du dossier");
 			}
@@ -312,9 +330,22 @@ class InterfaceController extends Zend_Controller_Action {
 
 	public function supprimerDossierAction() {
 		$idDossierCourant = $this->_session->get('root');
+		$user = $this->_session->get('utilisateur');
 		
 		if(isset($_GET['id'])){
 			$idDossier = $_GET['id'];
+			$folders = $this->_sqlite->execute("SELECT id FROM dossiers WHERE utilisateur='".$user['pseudo']."'");
+			
+			foreach ($folders as $key => $value) {
+				foreach ($value as $subValue) {
+					$foldersArray[] = $subValue;
+				}	
+			}
+
+			if(!in_array($idDossier, $foldersArray)){
+				$this->_session->set('erreur', 'Vous ne pouvez pas supprimer un dossier qui ne vous appartient pas');
+				$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
+			}
 			
 			$dossier = $this->_sqlite->execute("SELECT * FROM dossiers WHERE id='".$idDossier."'");
 			$dossier = $dossier[0];
@@ -340,9 +371,23 @@ class InterfaceController extends Zend_Controller_Action {
 	
 	public function supprimerFichierAction() {
 		$idDossierCourant = $this->_session->get('root');
+		$user = $this->_session->get('utilisateur');
 		
 		if(isset($_GET['id'])){
 			$idFichier = $_GET['id'];
+			
+			$fichiers = $this->_sqlite->execute("SELECT id FROM fichiers WHERE utilisateur='".$user['pseudo']."'");
+			
+			foreach ($fichiers as $key => $value) {
+				foreach ($value as $subValue) {
+					$fichiersArray[] = $subValue;
+				}	
+			}
+
+			if(!in_array($idFichier, $fichiersArray)){
+				$this->_session->set('erreur', 'Vous ne pouvez pas supprimer un fichier qui ne vous appartient pas');
+				$this->_helper->redirector->gotoUrl("/interface/index?parent=".$idDossierCourant);
+			}
 			
 			$fichier = $this->_sqlite->execute("SELECT * FROM fichiers WHERE id='".$idFichier."'");
 			

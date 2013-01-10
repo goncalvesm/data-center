@@ -71,6 +71,26 @@ body {
 	margin-bottom: 5px;
 }
 
+#contenu .message {
+	background-color: #08d600;
+ 	
+	background-image: -moz-linear-gradient(top, #08d600, #00d632);
+	background-image: -ms-linear-gradient(top, #08d600, #00d632);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#08d600), to(#00d632));
+	background-image: -webkit-linear-gradient(top, #08d600, #00d632);
+	background-image: -o-linear-gradient(top, #08d600, #00d632);
+	background-image: linear-gradient(top, #08d600, #00d632);
+	background-repeat: repeat-x;
+	
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#08d600', endColorstr='#00d632', GradientType=0);
+	
+	color: white;
+	font-weight: bold;
+	padding: 5px;
+	border: thin solid black;
+	border-radius: 4px;
+}
+
 #contenu .erreur {
 	background-color: #b70100;
  	
